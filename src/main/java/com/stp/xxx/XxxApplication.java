@@ -1,13 +1,13 @@
-package com.stp.xxxserver;
+package com.stp.xxx;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class XxxServerApplication {
+public class XxxApplication {
 
     public static void main(String[] args) {
-        SpringApplication.run(XxxServerApplication.class, args);
+        SpringApplication.run(XxxApplication.class, args);
     }
 
 }

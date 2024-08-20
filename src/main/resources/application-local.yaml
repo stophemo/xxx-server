@@ -1,0 +1,12 @@
+server:
+  port: 9999
+  servlet:
+    context-path: /xxx
+spring:
+  datasource:
+    url: jdbc:mysql://localhost:3306/xxx?useUnicode=true&characterEncoding=UTF-8
+    username: root
+    password: root
+logging:
+  file:
+    path: /logs/xxx
