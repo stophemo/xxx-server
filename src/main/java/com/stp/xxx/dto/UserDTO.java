@@ -5,23 +5,18 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.Date;
-
 /**
  * <p>
- * 管理端用户表.
+ * 用户表DTO
  * </p>
- *
- * @author lp
- * @since 2024-05-04
  */
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class AdminUserDTO {
+public class UserDTO {
 
-    private Long id;
+    private String id;
     private String email;
     private String phone;
     private String name;

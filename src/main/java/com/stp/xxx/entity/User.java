@@ -18,7 +18,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @TableName("t_sys_user")
-public class User extends BaseEntity{
+public class User extends BaseEntity {
 
     /**
      * 主键ID

@@ -1,7 +1,5 @@
 server:
   port: 9999
-  servlet:
-    context-path: /xxx
 spring:
   datasource:
     url: jdbc:mysql://localhost:3306/xxx?useUnicode=true&characterEncoding=UTF-8
@@ -10,3 +8,6 @@ spring:
 logging:
   file:
     path: /logs/xxx
+token:
+  signing:
+    key: 413F4428472B4B6250655368566D5970337336763979244226452948404D6351

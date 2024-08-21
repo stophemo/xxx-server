@@ -8,8 +8,7 @@ import java.util.Objects;
 
 /**
  * The type Result entity.
- *
- * @param <T> the type parameter */
+ */
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
