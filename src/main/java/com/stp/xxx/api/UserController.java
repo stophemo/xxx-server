@@ -1,8 +1,8 @@
 package com.stp.xxx.api;
 
+import cn.dev33.satoken.stp.SaTokenInfo;
 import cn.dev33.satoken.stp.StpUtil;
-import cn.dev33.satoken.util.SaResult;
-import com.stp.xxx.dto.core.ResultEntity;
+import com.stp.xxx.dto.UserDTO;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.Parameters;
@@ -28,33 +28,33 @@ public class UserController {
     @Resource
     private UserService userService;
 
+    @Operation(summary = "注册")
+    @PostMapping("/register")
+    public String register(@RequestBody UserDTO user) {
+        return userService.register(user);
+    }
+
     @Operation(summary = "登录")
     @Parameters({
             @Parameter(name = "username", description = "用户名", required = true),
             @Parameter(name = "password", description = "密码", required = true)})
     @PostMapping("/login")
-    public ResultEntity<String> login(@RequestParam String username,
-                                      @RequestParam String password) {
-        if ("jackman".equals(username) && "666".equals(password)) {
-            StpUtil.login(10001);
-            return ResultEntity.ok("登录成功");
-        }
-        return ResultEntity.error("登录失败");
+    public String login(@RequestParam String username, @RequestParam String password) {
+        return userService.login(username, password);
     }
 
     @PostMapping("isLogin")
-    public ResultEntity<String> isLogin() {
-        return ResultEntity.ok("当前会话是否登录：" + StpUtil.isLogin());
+    public Boolean isLogin() {
+        return StpUtil.isLogin();
     }
 
     @PostMapping("tokenInfo")
-    public SaResult tokenInfo() {
-        return SaResult.data(StpUtil.getTokenInfo());
+    public SaTokenInfo tokenInfo() {
+        return StpUtil.getTokenInfo();
     }
 
     @PostMapping("logout")
-    public SaResult logout() {
+    public void logout() {
         StpUtil.logout();
-        return SaResult.ok();
     }
 }

@@ -12,7 +12,6 @@ CREATE TABLE t_sys_user
     ordinal INT          NOT NULL DEFAULT 0 COMMENT '序号',
     is_deleted TINYINT(1)   NOT NULL DEFAULT 0 COMMENT '删除标记：1=已删除, 0=未删除',
     created_time DATETIME     NOT NULL COMMENT '创建时间',
-    updated_time DATETIME     NOT NULL COMMENT '更新时间',
-    CONSTRAINT unique_email UNIQUE (email, is_deleted)
+    updated_time DATETIME     NOT NULL COMMENT '更新时间'
 )
     COMMENT '用户表' ROW_FORMAT = DYNAMIC;

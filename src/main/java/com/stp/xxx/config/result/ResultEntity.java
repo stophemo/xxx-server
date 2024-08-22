@@ -1,4 +1,4 @@
-package com.stp.xxx.dto.core;
+package com.stp.xxx.config.result;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -31,7 +31,7 @@ public class ResultEntity<T> {
     /**
      * The constant MSG_SUCCESS.
      */
-    public static final String MSG_SUCCESS = "SUCCESS";
+    public static final String MSG_SUCCESS = "success";
 
     private int code;
 

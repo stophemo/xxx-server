@@ -21,6 +21,7 @@ configurations {
 }
 
 repositories {
+    mavenLocal()
     maven { url 'https://maven.aliyun.com/repository/public' }
     mavenCentral()
 }
@@ -34,7 +35,7 @@ dependencies {
     // Lombok
     compileOnly 'org.projectlombok:lombok:1.18.28'
     annotationProcessor 'org.projectlombok:lombok:1.18.28'
-    // Swagger 相关依赖
+    // Swagger 依赖
     // implementation 'org.springdoc:springdoc-openapi-starter-webmvc-ui:2.4.0'
     implementation 'com.github.xiaoymin:knife4j-openapi3-jakarta-spring-boot-starter:4.4.0'
     // MyBatis Plus
@@ -46,7 +47,7 @@ dependencies {
     // devtools
     developmentOnly('org.springframework.boot:spring-boot-devtools')
     // Liquibase
-    implementation 'org.liquibase:liquibase-core:4.27.0'
+    // implementation 'org.liquibase:liquibase-core:4.27.0'
     // jackson
     implementation 'com.fasterxml.jackson.core:jackson-databind:2.17.2'
     // mapstruct
@@ -56,5 +57,9 @@ dependencies {
     implementation 'cn.hutool:hutool-all:5.8.26'
     // sa-token
     implementation 'cn.dev33:sa-token-spring-boot3-starter:1.38.0'
+
+    // implementation 'com.thtf.demo:websocket-client-spring-boot-starter:1.0'
+//    implementation 'com.thtf.demo:websocket-server-spring-boot-starter:1.0'
+//    implementation 'org.springframework.boot:spring-boot-starter-websocket'
 }
 

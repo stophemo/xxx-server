@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <title>WebSocket Client</title>
+</head>
+<body>
+<h1>WebSocket Message Display</h1>
+<div id="messages" style="border: 1px solid #ccc; padding: 10px; height: 400px; overflow-y: scroll;">
+</div>
+
+<script type="module">
+    import {WebSocketAPI} from './WebSocketRegister.js';
+    // 注册 WebSocket 连接
+    WebSocketAPI.register('xmgl', 'jackman')
+        .then(() => {
+            console.log('jackman打开xmgl标签页');
+        })
+        .catch(error => {
+            console.error('jackman打开xmgl标签页，注册 WebSocket 连接时出错:', error);
+        });
+
+    setTimeout(() => {
+        WebSocketAPI.unregister('xmgl', 'jackman')
+            .then(() => {
+                console.log('jackman退出xmgl标签页');
+            })
+            .catch(error => {
+                console.error('jackman退出xmgl标签页时出错:', error);
+            });
+    }, 2000);
+</script>
+</body>
+</html>
