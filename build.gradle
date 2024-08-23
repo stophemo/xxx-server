@@ -58,8 +58,9 @@ dependencies {
     // sa-token
     implementation 'cn.dev33:sa-token-spring-boot3-starter:1.38.0'
 
-    // implementation 'com.thtf.demo:websocket-client-spring-boot-starter:1.0'
-//    implementation 'com.thtf.demo:websocket-server-spring-boot-starter:1.0'
-//    implementation 'org.springframework.boot:spring-boot-starter-websocket'
+    // Nacos
+    implementation 'com.alibaba.cloud:spring-cloud-starter-alibaba-nacos-config:2023.0.0.0-RC1'
+    implementation 'com.alibaba.cloud:spring-cloud-starter-alibaba-nacos-discovery:2023.0.0.0-RC1'
+//    implementation 'org.springframework.cloud:pring-cloud-starter-openfeign'
 }
 

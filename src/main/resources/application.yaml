@@ -1,6 +1,6 @@
 spring:
   application:
-    name: Springboot3-Springsecurity6-Mybatisplus
+    name: xxx-server
   mvc:
     pathmatch:
       matching-strategy: ANT_PATH_MATCHER
@@ -9,6 +9,16 @@ spring:
   liquibase:
     change-log: classpath:db/changelog/master.yaml
     enabled: true
+  cloud:
+    nacos:
+      discovery:
+        server-addr: 127.0.0.1:8848
+      config:
+        server-addr: 127.0.0.1:8848
+  config:
+    import:
+      - optional:nacos:initial-stage-common.yml
+      - optional:nacos:initial-stage-common.yml
 
 ################# MyBatis配置 #################
 mybatis-plus:
@@ -48,8 +58,13 @@ springdoc:
     - group: 'default'
       paths-to-match: '/**'
       packages-to-scan: com.stp.xxx.api
-# knife4j的增强配置，不需要增强可以不配
+################# knife4j的增强配置，不需要增强可以不配 ###########
 knife4j:
   enable: true
   setting:
     language: zh_cn
+#################### nacos ##################
+
+my:
+  custom:
+    property: This is a custom property from Nacos

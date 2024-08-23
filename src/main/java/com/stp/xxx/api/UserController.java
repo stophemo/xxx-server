@@ -8,6 +8,7 @@ import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.Parameters;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.annotation.Resource;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.*;
 import com.stp.xxx.service.UserService;
 
@@ -23,6 +24,9 @@ import com.stp.xxx.service.UserService;
 @RestController
 @RequestMapping("/user")
 public class UserController {
+
+    @Value("${my.custom.property}")
+    private String customProperty;
 
 
     @Resource
@@ -40,6 +44,7 @@ public class UserController {
             @Parameter(name = "password", description = "密码", required = true)})
     @PostMapping("/login")
     public String login(@RequestParam String username, @RequestParam String password) {
+        System.out.println("customProperty = " + customProperty);
         return userService.login(username, password);
     }
 
