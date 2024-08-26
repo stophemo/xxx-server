@@ -33,6 +33,7 @@ public interface UserConverter {
      * @param dto the entity
      * @return the base station brief dto
      */
+    @MappingIgnore
     User toEntity(UserDTO dto);
 
     /**
@@ -49,6 +50,7 @@ public interface UserConverter {
      * @param dtos the dtos
      * @return the list
      */
+    @MappingIgnore
     List<User> toEntities(List<UserDTO> dtos);
 }
 

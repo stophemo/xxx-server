@@ -14,12 +14,13 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseBodyAdvice;
  * 对返回结果统一进行处理，包括返回结果格式统一包装，返回异常统一处理
  */
 @Slf4j
-@RestControllerAdvice
+@RestControllerAdvice(basePackages = "com.stp.xxx")
 public class RestResponseAdvice implements ResponseBodyAdvice<Object> {
 
     @Override
     public boolean supports(@NonNull MethodParameter returnType,
                             @NonNull Class<? extends HttpMessageConverter<?>> converterType) {
+        // 如果不需要进行封装的，可以添加一些校验手段，比如添加标记排除的注解
         return true;
     }
 

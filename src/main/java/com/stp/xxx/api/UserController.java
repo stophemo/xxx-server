@@ -9,6 +9,7 @@ import io.swagger.v3.oas.annotations.Parameters;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.annotation.Resource;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.cloud.context.config.annotation.RefreshScope;
 import org.springframework.web.bind.annotation.*;
 import com.stp.xxx.service.UserService;
 
@@ -20,14 +21,11 @@ import com.stp.xxx.service.UserService;
  * @author stophemo
  * @since 2024-08-20
  */
+@RefreshScope
 @Tag(name = "用户管理")
 @RestController
 @RequestMapping("/user")
 public class UserController {
-
-    @Value("${my.custom.property}")
-    private String customProperty;
-
 
     @Resource
     private UserService userService;
@@ -44,7 +42,6 @@ public class UserController {
             @Parameter(name = "password", description = "密码", required = true)})
     @PostMapping("/login")
     public String login(@RequestParam String username, @RequestParam String password) {
-        System.out.println("customProperty = " + customProperty);
         return userService.login(username, password);
     }
 
@@ -61,5 +58,15 @@ public class UserController {
     @PostMapping("logout")
     public void logout() {
         StpUtil.logout();
+    }
+
+
+    @Value("${my.custom.property:qqqwwweee}")
+    private String myCustomProperty;
+
+    @PostMapping("testnacos")
+    public String testnacos() {
+        System.out.println("test:   " + myCustomProperty);
+        return myCustomProperty;
     }
 }
