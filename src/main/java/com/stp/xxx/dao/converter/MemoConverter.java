@@ -8,13 +8,6 @@ import org.mapstruct.factory.Mappers;
 
 import java.util.List;
 
-import com.stp.xxx.dto.MemoDTO;
-import com.stp.xxx.entity.Memo;
-import org.mapstruct.Mapper;
-import org.mapstruct.factory.Mappers;
-
-import java.util.List;
-
 /**
  * 用户表 Mapstruct转换接口.
  */

@@ -15,12 +15,11 @@
         <result column="avatar" property="avatar" />
         <result column="status" property="status" />
         <result column="ordinal" property="ordinal" />
-        <result column="created_time" property="createdTime" />
-        <result column="updated_time" property="updatedTime" />
+        <result column="created_time" property="createTime" />
+        <result column="updated_time" property="updateTime" />
     </resultMap>
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
-        is_deleted,
         id, email, phone, name, nickname, password, gender, avatar, status, ordinal, created_time, updated_time
     </sql>
 

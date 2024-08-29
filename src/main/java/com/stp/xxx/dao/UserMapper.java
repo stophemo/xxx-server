@@ -1,7 +1,7 @@
 package com.stp.xxx.dao;
 
-import com.stp.xxx.entity.User;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import com.stp.xxx.entity.User;
 import org.apache.ibatis.annotations.Mapper;
 
 /**

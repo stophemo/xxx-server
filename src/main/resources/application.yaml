@@ -1,23 +1,25 @@
 server:
   port: 9898
 spring:
+  profiles:
+    active: local
   application:
     name: xxx-server
-  profiles:
-    active: dev
   cloud:
     nacos:
       config:
         server-addr: 192.168.8.30:8848
         file-extension: yaml
+        username: nacos
+        password: nacos
       discovery:
         server-addr: 192.168.8.30:8848
+        username: nacos
+        password: nacos
   config:
     import:
-      - nacos:xxx-server-dev.yaml
-  liquibase:
-    change-log: classpath:db/changelog/master.yaml
-    enabled: true
+      - optional:nacos:${spring.application.name}-dev.yaml
+      - optional:classpath:/custom.yaml
 ################# MyBatis配置 #################
 mybatis-plus:
   configuration:
@@ -61,7 +63,3 @@ knife4j:
   enable: true
   setting:
     language: zh_cn
-
-#my:
-#  custom:
-#    property: This is a custom property from Nacos

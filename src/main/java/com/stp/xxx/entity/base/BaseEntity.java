@@ -1,4 +1,4 @@
-package com.stp.xxx.entity;
+package com.stp.xxx.entity.base;
 
 import com.baomidou.mybatisplus.annotation.FieldFill;
 import com.baomidou.mybatisplus.annotation.TableField;

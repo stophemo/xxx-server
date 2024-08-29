@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
+import com.stp.xxx.entity.base.BaseEntity;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -18,7 +19,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @TableName("t_feat_memo")
-public class Memo extends BaseEntity{
+public class Memo extends BaseEntity {
 
     /**
      * 唯一标识符

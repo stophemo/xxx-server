@@ -1,4 +1,8 @@
+################# 数据库配置 #################
 spring:
+  liquibase:
+    change-log: classpath:db/changelog/master.yaml
+    enabled: true
   datasource:
     url: jdbc:mysql://localhost:3306/xxx?useUnicode=true&characterEncoding=UTF-8
     username: root

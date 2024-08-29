@@ -4,12 +4,13 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 
-//@NacosPropertySource(dataId = "application.yml", autoRefreshed = true)
 @EnableDiscoveryClient
 @SpringBootApplication
 public class XxxApplication {
 
     public static void main(String[] args) {
         SpringApplication.run(XxxApplication.class, args);
+
+
     }
 }
