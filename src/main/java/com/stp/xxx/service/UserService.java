@@ -1,6 +1,7 @@
 package com.stp.xxx.service;
 
-import com.stp.xxx.dto.UserDTO;
+import com.stp.xxx.dto.user.UserAddInputDTO;
+import com.stp.xxx.dto.user.UserUpdateInputDTO;
 import com.stp.xxx.entity.User;
 import com.baomidou.mybatisplus.extension.service.IService;
 
@@ -11,8 +12,10 @@ import com.baomidou.mybatisplus.extension.service.IService;
  */
 public interface UserService extends IService<User> {
 
-    String login(String username,
-                               String password);
+    String register(UserAddInputDTO inputDTO);
 
-    String register(UserDTO user);
+    String updateUserInfo(UserUpdateInputDTO inputDTO);
+
+
+    String login(String username, String password);
 }

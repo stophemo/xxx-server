@@ -50,12 +50,12 @@ dependencies {
     // devtools
     developmentOnly('org.springframework.boot:spring-boot-devtools')
     // Liquibase
-    // implementation 'org.liquibase:liquibase-core:4.27.0'
+    implementation 'org.liquibase:liquibase-core:4.27.0'
     // jackson
     implementation 'com.fasterxml.jackson.core:jackson-databind:2.15.3'
     // mapstruct
-    implementation 'org.mapstruct:mapstruct:1.5.5.Final'
-    annotationProcessor 'org.mapstruct:mapstruct-processor:1.5.5.Final'
+//    implementation 'org.mapstruct:mapstruct:1.5.5.Final'
+//    annotationProcessor 'org.mapstruct:mapstruct-processor:1.5.5.Final'
     // hutool
     implementation 'cn.hutool:hutool-all:5.8.26'
     // sa-token

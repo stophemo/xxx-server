@@ -24,14 +24,20 @@ public class Memo extends BaseEntity {
     /**
      * 唯一标识符
      */
-    @TableId(value = "id", type = IdType.AUTO)
-    private Long id;
+    @TableId(value = "id", type = IdType.ASSIGN_UUID)
+    private String id;
 
     /**
      * 用户ID，关联到用户表
      */
     @TableField("user_id")
-    private Long userId;
+    private String userId;
+
+    /**
+     * 用户名
+     */
+    @TableField("user_name")
+    private String userName;
 
     /**
      * 备忘录标题
@@ -55,5 +61,7 @@ public class Memo extends BaseEntity {
      * 优先级
      */
     @TableField("priority")
-    private String priority;
+    private Integer priority;
+
+
 }

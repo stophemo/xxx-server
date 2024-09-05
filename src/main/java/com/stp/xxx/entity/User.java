@@ -61,7 +61,7 @@ public class User extends BaseEntity {
      * 性别：1=男, 2=女, 0=未知
      */
     @TableField("gender")
-    private Boolean gender;
+    private Integer gender;
 
     /**
      * 头像

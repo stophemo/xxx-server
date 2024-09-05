@@ -1,5 +1,6 @@
 package com.stp.xxx.config.result;
 
+import com.stp.xxx.config.exception.BusinessException;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -56,8 +57,7 @@ public class ResultEntity<T> {
      * @return the result entity
      */
     public static <T> ResultEntity<T> ok(T data) {
-        ResultEntity<T> result = new ResultEntity<>(SUCCESS, MSG_SUCCESS, data);
-        return result;
+        return new ResultEntity<>(SUCCESS, MSG_SUCCESS, data);
     }
 
     /**
@@ -68,8 +68,7 @@ public class ResultEntity<T> {
      * @return the result entity
      */
     public static <T> ResultEntity<T> success(T data) {
-        ResultEntity<T> result = new ResultEntity<>(SUCCESS, MSG_SUCCESS, data);
-        return result;
+        return new ResultEntity<>(SUCCESS, MSG_SUCCESS, data);
     }
 
     /**
@@ -80,8 +79,7 @@ public class ResultEntity<T> {
      * @return the result entity
      */
     public static <T> ResultEntity<T> error(String message) {
-        ResultEntity<T> result = new ResultEntity<>(BUSINESS_ERROR_CODE, message, null);
-        return result;
+        return new ResultEntity<>(BUSINESS_ERROR_CODE, message, null);
     }
 
     /**
@@ -93,8 +91,7 @@ public class ResultEntity<T> {
      * @return the result entity
      */
     public static <T> ResultEntity<T> error(int errorCode, String message) {
-        ResultEntity<T> result = new ResultEntity<>(errorCode, message, null);
-        return result;
+        return new ResultEntity<>(errorCode, message, null);
     }
 
     /**
@@ -107,8 +104,17 @@ public class ResultEntity<T> {
      * @return the result entity
      */
     public static <T> ResultEntity<T> error(int errorCode, String message, T data) {
-        ResultEntity<T> result = new ResultEntity<>(errorCode, message, data);
-        return result;
+        return new ResultEntity<>(errorCode, message, data);
+    }
+
+    /**
+     * 业务异常包装
+     *
+     * @param e 业务异常
+     * @return the result entity
+     */
+    public static <T> ResultEntity<T> error(BusinessException e) {
+        return new ResultEntity<>(e.getCode(), e.getMessage(), null);
     }
 }
 

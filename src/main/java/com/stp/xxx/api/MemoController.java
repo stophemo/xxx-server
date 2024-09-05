@@ -1,13 +1,14 @@
 package com.stp.xxx.api;
 
+import com.stp.xxx.dto.memo.MemoDTO;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import org.springframework.cloud.context.config.annotation.RefreshScope;
+import jakarta.annotation.Resource;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
+
 import com.stp.xxx.service.MemoService;
 import com.stp.xxx.entity.Memo;
-import org.springframework.beans.factory.annotation.Autowired;
 
 /**
  * <p>
@@ -19,30 +20,44 @@ import org.springframework.beans.factory.annotation.Autowired;
  */
 @Tag(name = "备忘录")
 @RestController
-@RequestMapping("/memo")
+@RequestMapping("api/memo/")
 public class MemoController {
 
-
-    @Autowired
+    @Resource
     private MemoService memoService;
 
-
-
-    @PostMapping(value = "/create")
-    public ResponseEntity<Object> create(@RequestBody Memo params) {
-        memoService.save(params);
-        return new ResponseEntity<>("created successfully", HttpStatus.OK);
+    /**
+     * 新建备忘
+     * @return 备忘ID
+     */
+    @Operation(summary = "新建备忘")
+    @PostMapping(value = "add")
+    public String add(@RequestBody MemoDTO memoDTO) {
+        return memoService.add(memoDTO);
     }
 
-    @PostMapping(value = "/delete/{id}")
-    public ResponseEntity<Object> delete(@PathVariable("id") String id) {
+    /**
+     * 删除备忘
+     *
+     * @param id 备忘ID
+     */
+    @Operation(summary = "删除备忘")
+    @PostMapping(value = "del/{id}")
+    public void delete(
+            @Parameter(description = "备忘ID", required = true) @PathVariable("id") String id) {
         memoService.removeById(id);
-        return new ResponseEntity<>("deleted successfully", HttpStatus.OK);
     }
 
-    @PostMapping(value = "/update")
-    public ResponseEntity<Object> update(@RequestBody Memo params) {
+    /**
+     * 更新备忘
+     *
+     * @param params 备忘信息
+     */
+    @Operation(summary = "更新备忘")
+    @PostMapping(value = "update")
+    public void update(
+            @Parameter(description = "备忘信息", required = true) @RequestBody Memo params) {
         memoService.updateById(params);
-        return new ResponseEntity<>("updated successfully", HttpStatus.OK);
     }
+
 }

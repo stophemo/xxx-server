@@ -1,5 +1,6 @@
 package com.stp.xxx.service;
 
+import com.stp.xxx.dto.memo.MemoDTO;
 import com.stp.xxx.entity.Memo;
 import com.baomidou.mybatisplus.extension.service.IService;
 
@@ -13,4 +14,5 @@ import com.baomidou.mybatisplus.extension.service.IService;
  */
 public interface MemoService extends IService<Memo> {
 
+    String add(MemoDTO memoDTO);
 }

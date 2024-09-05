@@ -26,8 +26,13 @@ mybatis-plus:
     log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
   global-config:
     banner: off
+#    db-config:
+#      logic-delete-field: is_deleted
+#      logic-delete-value: 1
+#      logic-not-delete-value: 0
   mapper-locations: classpath*:mapper/**/*Mapper.xml
   type-aliases-package: com.stp.xxx.entity
+
 
 ############## Sa-Token 配置 (文档: https://sa-token.cc) ##############
 sa-token:

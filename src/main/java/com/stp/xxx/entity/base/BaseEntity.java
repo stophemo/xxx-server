@@ -23,7 +23,7 @@ public abstract class BaseEntity implements Serializable {
      */
     @TableLogic(value = "0", delval = "1")
     @TableField(fill = FieldFill.INSERT, value = "is_deleted", select = false)
-    private Boolean isDeleted;
+    private Integer isDeleted;
 
     /**
      * 创建时间
