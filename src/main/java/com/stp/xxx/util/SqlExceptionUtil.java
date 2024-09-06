@@ -1,7 +1,6 @@
 package com.stp.xxx.util;
 
 import cn.hutool.core.util.StrUtil;
-import com.baomidou.mybatisplus.core.mapper.Mapper;
 import com.stp.xxx.dao.CommonMapper;
 
 import java.util.regex.Matcher;

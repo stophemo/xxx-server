@@ -30,6 +30,12 @@ public class MemoController {
     @Resource
     private MemoService memoService;
 
+    @Operation(summary = "获取")
+    @GetMapping(value = "get")
+    public String getMemoJson(@RequestParam String username) {
+        return memoService.getMemoJson(username);
+    }
+
     @ApiOperationSupport(order = 1)
     @Operation(summary = "新建备忘")
     @PostMapping(value = "add")
@@ -37,11 +43,6 @@ public class MemoController {
         return memoService.add(inputDTO);
     }
 
-    /**
-     * 删除备忘
-     *
-     * @param id 备忘ID
-     */
     @Operation(summary = "删除备忘")
     @PostMapping(value = "del/{id}")
     public void delete(

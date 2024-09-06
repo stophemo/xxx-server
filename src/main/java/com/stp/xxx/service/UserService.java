@@ -1,9 +1,9 @@
 package com.stp.xxx.service;
 
+import com.mybatisflex.core.service.IService;
 import com.stp.xxx.dto.user.UserAddInputDTO;
 import com.stp.xxx.dto.user.UserUpdateInputDTO;
 import com.stp.xxx.entity.User;
-import com.baomidou.mybatisplus.extension.service.IService;
 
 /**
  * <p>

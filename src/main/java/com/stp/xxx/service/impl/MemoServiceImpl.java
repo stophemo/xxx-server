@@ -1,15 +1,14 @@
 package com.stp.xxx.service.impl;
 
-import cn.dev33.satoken.stp.SaTokenInfo;
 import cn.dev33.satoken.stp.StpUtil;
 import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.util.IdUtil;
+import com.mybatisflex.spring.service.impl.ServiceImpl;
 import com.stp.xxx.dto.memo.MemoAddInputDTO;
 import com.stp.xxx.entity.Memo;
 import com.stp.xxx.dao.MemoMapper;
 import com.stp.xxx.entity.User;
 import com.stp.xxx.service.MemoService;
-import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.stereotype.Service;
 
 /**
@@ -29,10 +28,14 @@ public class MemoServiceImpl extends ServiceImpl<MemoMapper, Memo> implements Me
         Memo memo = BeanUtil.copyProperties(inputDTO, Memo.class);
         memo.setId(IdUtil.fastSimpleUUID().toUpperCase());
         memo.setUserId(user.getId());
-        memo.setUserName(user.getName());
-        if (baseMapper.insert(memo) == 1) {
+        if (save(memo)) {
             return memo.getId();
         }
         return "创建失败";
+    }
+
+    @Override
+    public String getMemoJson(String username) {
+        return "";
     }
 }

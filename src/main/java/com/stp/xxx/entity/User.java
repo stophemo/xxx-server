@@ -1,14 +1,13 @@
 package com.stp.xxx.entity;
 
-import com.baomidou.mybatisplus.annotation.IdType;
-import com.baomidou.mybatisplus.annotation.TableField;
-import com.baomidou.mybatisplus.annotation.TableId;
-import com.baomidou.mybatisplus.annotation.TableName;
+import com.mybatisflex.annotation.Column;
+import com.mybatisflex.annotation.Id;
+import com.mybatisflex.annotation.KeyType;
+import com.mybatisflex.annotation.Table;
+import com.mybatisflex.core.keygen.KeyGenerators;
 import com.stp.xxx.entity.base.BaseEntity;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.Setter;
 
 /**
  * <p>
@@ -20,66 +19,36 @@ import lombok.Setter;
  */
 @EqualsAndHashCode(callSuper = true)
 @Data
-@TableName("t_sys_user")
+@Table("t_sys_user")
 public class User extends BaseEntity {
 
-    /**
-     * 主键ID
-     */
-    @TableId(value = "id", type = IdType.ASSIGN_UUID)
+    @Id(keyType = KeyType.Generator, value = KeyGenerators.uuid)
     private String id;
 
-    /**
-     * 邮箱
-     */
-    @TableField("email")
+    @Column(value = "email", comment = "邮箱")
     private String email;
 
-    /**
-     * 手机
-     */
-    @TableField("phone")
+    @Column(value = "phone", comment = "手机")
     private String phone;
 
-    /**
-     * 用户名
-     */
-    @TableField("name")
+    @Column(value = "name", comment = "用户名")
     private String name;
 
-    /**
-     * 昵称
-     */
-    @TableField("nickname")
+    @Column(value = "nickname", comment = "昵称")
     private String nickname;
 
-    /**
-     * 密码
-     */
-    @TableField("password")
+    @Column(value = "password", comment = "密码")
     private String password;
 
-    /**
-     * 性别：1=男, 2=女, 0=未知
-     */
-    @TableField("gender")
+    @Column(value = "gender", comment = "性别：1=男, 2=女, 0=未知")
     private Integer gender;
 
-    /**
-     * 头像
-     */
-    @TableField("avatar")
+    @Column(value = "avatar", comment = "头像")
     private String avatar;
 
-    /**
-     * 状态：0=禁用, 1=启用
-     */
-    @TableField("status")
+    @Column(value = "status", comment = "状态：0=禁用, 1=启用")
     private Boolean status;
 
-    /**
-     * 序号
-     */
-    @TableField("ordinal")
+    @Column(value = "ordinal", comment = "序号")
     private Integer ordinal;
 }

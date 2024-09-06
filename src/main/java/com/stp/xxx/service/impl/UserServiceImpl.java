@@ -4,7 +4,8 @@ import cn.dev33.satoken.stp.StpUtil;
 import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.util.IdUtil;
 import cn.hutool.core.util.ObjUtil;
-import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.mybatisflex.core.query.QueryWrapper;
+import com.mybatisflex.spring.service.impl.ServiceImpl;
 import com.stp.xxx.config.exception.BusinessException;
 import com.stp.xxx.config.exception.ErrorCodeEnum;
 import com.stp.xxx.dao.CommonMapper;
@@ -13,11 +14,10 @@ import com.stp.xxx.dto.user.UserAddInputDTO;
 import com.stp.xxx.dto.user.UserUpdateInputDTO;
 import com.stp.xxx.entity.User;
 import com.stp.xxx.service.UserService;
-import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.stp.xxx.util.SqlExceptionUtil;
-import jakarta.annotation.Resource;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 /**
@@ -33,18 +33,15 @@ import org.springframework.stereotype.Service;
 @Service
 public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements UserService {
 
-    @Resource
-    private UserMapper userMapper;
-    @Resource
+    @Autowired
     private CommonMapper commonMapper;
+
 
     @Override
     public String register(UserAddInputDTO inputDTO) {
-
-/*        User existUser = userMapper.selectOne(new QueryWrapper<User>().eq("name", inputDTO.getName()));
-        if (ObjUtil.isNotEmpty(existUser)) {
+        if (exists(QueryWrapper.create().eq("name", inputDTO.getName()))) {
             return "注册失败，用户名已存在";
-        }*/
+        }
 
         User user = new User();
         BeanUtil.copyProperties(inputDTO, user);
@@ -52,8 +49,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
         user.setStatus(true);
 
         try {
-            int insert = userMapper.insert(user);
-            if (insert == 1) {
+            if (save(user)) {
                 StpUtil.login(user.getName());
                 return "注册成功";
             }
@@ -76,8 +72,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
     public String updateUserInfo(UserUpdateInputDTO inputDTO) {
         User user = BeanUtil.copyProperties(inputDTO, User.class);
         try {
-            int i = baseMapper.updateById(user);
-            if (i == 1) {
+            if (updateById(user, true)) {
                 return "修改成功";
             }
         } catch (Exception e) {
@@ -101,14 +96,13 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
     @Override
     public String login(String username, String password) {
 
-        User user = userMapper.selectOne(new QueryWrapper<User>().eq("name", username));
+        User user = getOne(QueryWrapper.create().eq("name", username));
 
         if (ObjUtil.isEmpty(user)) {
             return "登录失败，用户名不存在";
         }
 
-        boolean checkFlag = userMapper.exists(new QueryWrapper<User>().eq("name", username).eq("password", password));
-        if (checkFlag) {
+        if (exists(QueryWrapper.create().eq("name", username).eq("password", password))) {
             StpUtil.login(user.getId());
             StpUtil.getSession().set("info", user);
             return "登录成功";

@@ -1,8 +1,8 @@
 package com.stp.xxx.service;
 
+import com.mybatisflex.core.service.IService;
 import com.stp.xxx.dto.memo.MemoAddInputDTO;
 import com.stp.xxx.entity.Memo;
-import com.baomidou.mybatisplus.extension.service.IService;
 
 /**
  * <p>
@@ -15,4 +15,6 @@ import com.baomidou.mybatisplus.extension.service.IService;
 public interface MemoService extends IService<Memo> {
 
     String add(MemoAddInputDTO inputDTO);
+
+    String getMemoJson(String username);
 }

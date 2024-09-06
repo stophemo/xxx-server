@@ -21,17 +21,23 @@ spring:
       - optional:nacos:${spring.application.name}-dev.yaml
       - optional:classpath:/custom.yaml
 ################# MyBatis配置 #################
-mybatis-plus:
-  configuration:
-    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
-  global-config:
-    banner: off
+#mybatis-plus:
+#  configuration:
+#    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+#  global-config:
+#    banner: off
 #    db-config:
 #      logic-delete-field: is_deleted
 #      logic-delete-value: 1
 #      logic-not-delete-value: 0
-  mapper-locations: classpath*:mapper/**/*Mapper.xml
-  type-aliases-package: com.stp.xxx.entity
+#  mapper-locations: classpath*:mapper/**/*Mapper.xml
+#  type-aliases-package: com.stp.xxx.entity
+mybatis-flex:
+  mapper-locations:
+    - classpath*:/mapper/*.xml
+  global-config:
+    normal-value-of-logic-delete: false
+    deleted-value-of-logic-delete: true
 
 
 ############## Sa-Token 配置 (文档: https://sa-token.cc) ##############

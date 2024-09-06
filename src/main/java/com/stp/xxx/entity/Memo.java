@@ -1,9 +1,10 @@
 package com.stp.xxx.entity;
 
-import com.baomidou.mybatisplus.annotation.IdType;
-import com.baomidou.mybatisplus.annotation.TableField;
-import com.baomidou.mybatisplus.annotation.TableId;
-import com.baomidou.mybatisplus.annotation.TableName;
+import com.mybatisflex.annotation.Column;
+import com.mybatisflex.annotation.Id;
+import com.mybatisflex.annotation.KeyType;
+import com.mybatisflex.annotation.Table;
+import com.mybatisflex.core.keygen.KeyGenerators;
 import com.stp.xxx.entity.base.BaseEntity;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -18,50 +19,24 @@ import lombok.EqualsAndHashCode;
  */
 @EqualsAndHashCode(callSuper = true)
 @Data
-@TableName("t_feat_memo")
+@Table("t_feat_memo")
 public class Memo extends BaseEntity {
 
-    /**
-     * 唯一标识符
-     */
-    @TableId(value = "id", type = IdType.ASSIGN_UUID)
+    @Id(keyType = KeyType.Generator, value = KeyGenerators.uuid)
     private String id;
 
-    /**
-     * 用户ID，关联到用户表
-     */
-    @TableField("user_id")
+    @Column(value = "user_id", comment = "用户ID")
     private String userId;
 
-    /**
-     * 用户名
-     */
-    @TableField("user_name")
-    private String userName;
-
-    /**
-     * 备忘录标题
-     */
-    @TableField("title")
+    @Column(value = "title", comment = "标题")
     private String title;
 
-    /**
-     * 备忘录内容
-     */
-    @TableField("content")
+    @Column(value = "content", comment = "内容")
     private String content;
 
-    /**
-     * 备忘录标签，使用逗号分隔
-     */
-    @TableField("tags")
+    @Column(value = "tags", comment = "标签")
     private String tags;
 
-    /**
-     * 优先级
-     */
-    @TableField("priority")
+    @Column(value = "priority", comment = "优先级")
     private Integer priority;
-
-
 }

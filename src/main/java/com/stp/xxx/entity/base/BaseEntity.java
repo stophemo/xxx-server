@@ -1,9 +1,7 @@
 package com.stp.xxx.entity.base;
 
-import com.baomidou.mybatisplus.annotation.FieldFill;
-import com.baomidou.mybatisplus.annotation.TableField;
-import com.baomidou.mybatisplus.annotation.TableLogic;
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.mybatisflex.annotation.Column;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -21,16 +19,16 @@ public abstract class BaseEntity implements Serializable {
     /**
      * 记录是否已删除
      */
-    @TableLogic(value = "0", delval = "1")
-    @TableField(fill = FieldFill.INSERT, value = "is_deleted", select = false)
-    private Integer isDeleted;
+
+    @Column(value = "is_deleted", isLogicDelete = true)
+    private Boolean isDeleted;
 
     /**
      * 创建时间
      */
     @JsonFormat(timezone = "GMT+8", pattern = "yyyy-MM-dd HH:mm:ss")
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-    @TableField(fill = FieldFill.INSERT, value = "create_time", select = false)
+    @Column(value = "create_time", onInsertValue = "now()")
     private LocalDateTime createTime;
 
     /**
@@ -38,6 +36,6 @@ public abstract class BaseEntity implements Serializable {
      */
     @JsonFormat(timezone = "GMT+8", pattern = "yyyy-MM-dd HH:mm:ss")
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-    @TableField(fill = FieldFill.INSERT_UPDATE, value = "update_time", select = false)
+    @Column( value = "update_time", onInsertValue = "now()", onUpdateValue = "now()")
     private LocalDateTime updateTime;
 }

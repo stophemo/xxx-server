@@ -1,8 +1,7 @@
 package com.stp.xxx.dao;
 
-import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import com.mybatisflex.core.BaseMapper;
 import com.stp.xxx.entity.Memo;
-import org.apache.ibatis.annotations.Mapper;
 
 /**
  * <p>
@@ -12,7 +11,5 @@ import org.apache.ibatis.annotations.Mapper;
  * @author jackman
  * @since 2024-08-26
  */
-@Mapper
 public interface MemoMapper extends BaseMapper<Memo> {
-
 }
