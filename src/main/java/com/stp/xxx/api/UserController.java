@@ -1,6 +1,5 @@
 package com.stp.xxx.api;
 
-import cn.dev33.satoken.stp.SaTokenInfo;
 import cn.dev33.satoken.stp.StpUtil;
 import com.github.xiaoymin.knife4j.annotations.ApiOperationSupport;
 import com.github.xiaoymin.knife4j.annotations.ApiSort;
@@ -12,7 +11,6 @@ import io.swagger.v3.oas.annotations.Parameters;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.annotation.Resource;
 import jakarta.validation.Valid;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cloud.context.config.annotation.RefreshScope;
 import org.springframework.web.bind.annotation.*;
 import com.stp.xxx.service.UserService;
@@ -25,6 +23,7 @@ import com.stp.xxx.service.UserService;
  * @author stophemo
  * @since 2024-08-20
  */
+@ApiSort(1)
 @RefreshScope
 @Tag(name = "用户管理")
 @RestController
@@ -58,28 +57,10 @@ public class UserController {
         return userService.login(username, password);
     }
 
-    @PostMapping("isLogin")
-    public Boolean isLogin() {
-        return StpUtil.isLogin();
-    }
-
-    @PostMapping("tokenInfo")
-    public SaTokenInfo tokenInfo() {
-        return StpUtil.getTokenInfo();
-    }
-
+    @ApiOperationSupport(order = 4)
+    @Operation(summary = "注销")
     @PostMapping("logout")
     public void logout() {
         StpUtil.logout();
-    }
-
-
-    @Value("${my.custom.property:qqqwwweee}")
-    private String myCustomProperty;
-
-    @PostMapping("testnacos")
-    public String testnacos() {
-        System.out.println("test:   " + myCustomProperty);
-        return myCustomProperty;
     }
 }

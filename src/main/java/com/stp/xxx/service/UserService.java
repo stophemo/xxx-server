@@ -16,6 +16,5 @@ public interface UserService extends IService<User> {
 
     String updateUserInfo(UserUpdateInputDTO inputDTO);
 
-
     String login(String username, String password);
 }

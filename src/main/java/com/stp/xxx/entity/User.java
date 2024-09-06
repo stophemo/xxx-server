@@ -5,6 +5,8 @@ import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.stp.xxx.entity.base.BaseEntity;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -16,8 +18,8 @@ import lombok.Setter;
  * @author stophemo
  * @since 2024-08-20
  */
-@Getter
-@Setter
+@EqualsAndHashCode(callSuper = true)
+@Data
 @TableName("t_sys_user")
 public class User extends BaseEntity {
 

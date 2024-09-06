@@ -13,14 +13,14 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(BusinessException.class)
     @ResponseBody
     public ResultEntity<?> businessException(BusinessException e) {
-        log.error(e.getMessage(), e.getCause());
+        log.error("业务异常：", e);
         return ResultEntity.error(e);
     }
 
     @ExceptionHandler(Exception.class)
     @ResponseBody
     public ResultEntity<?> exception(Exception e) {
-        log.error(e.getMessage(), e.getCause());
+        log.error("未知异常：", e);
         return ResultEntity.error(ErrorCodeEnum.UNKNOWN_ERROR.getCode(), e.getMessage(), e.getCause());
     }
 }

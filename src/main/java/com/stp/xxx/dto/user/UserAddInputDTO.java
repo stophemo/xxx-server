@@ -6,7 +6,6 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
 import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -16,16 +15,12 @@ import lombok.NoArgsConstructor;
  * </p>
  */
 @Data
-@NoArgsConstructor
-@AllArgsConstructor
-@Builder
 public class UserAddInputDTO {
 
     @Schema(description = "电子邮箱")
     @NotBlank(message = "电子邮箱不能为空")
     @Email(message = "电子邮箱格式不正确")
     private String email;
-
 
     @Schema(description = "手机号码")
     @NotBlank(message = "手机号码不能为空")

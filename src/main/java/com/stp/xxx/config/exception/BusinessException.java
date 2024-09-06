@@ -47,6 +47,11 @@ public class BusinessException extends RuntimeException {
         this.msg = msg;
     }
 
+    public BusinessException(String msg, Throwable cause) {
+        super(msg, cause);
+        this.code = ErrorCodeEnum.UNKNOWN_ERROR.getCode(); // 默认错误码
+    }
+
     public BusinessException(Exception e) {
         super(e.getMessage(), e.getCause());
         this.code = ErrorCodeEnum.UNKNOWN_ERROR.getCode(); // 默认错误码

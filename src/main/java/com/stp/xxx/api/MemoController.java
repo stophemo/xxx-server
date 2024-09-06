@@ -1,10 +1,13 @@
 package com.stp.xxx.api;
 
-import com.stp.xxx.dto.memo.MemoDTO;
+import com.github.xiaoymin.knife4j.annotations.ApiOperationSupport;
+import com.github.xiaoymin.knife4j.annotations.ApiSort;
+import com.stp.xxx.dto.memo.MemoAddInputDTO;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.annotation.Resource;
+import jakarta.validation.Valid;
 import org.springframework.web.bind.annotation.*;
 
 import com.stp.xxx.service.MemoService;
@@ -18,6 +21,7 @@ import com.stp.xxx.entity.Memo;
  * @author jackman
  * @since 2024-08-26
  */
+@ApiSort(2)
 @Tag(name = "备忘录")
 @RestController
 @RequestMapping("api/memo/")
@@ -26,14 +30,11 @@ public class MemoController {
     @Resource
     private MemoService memoService;
 
-    /**
-     * 新建备忘
-     * @return 备忘ID
-     */
+    @ApiOperationSupport(order = 1)
     @Operation(summary = "新建备忘")
     @PostMapping(value = "add")
-    public String add(@RequestBody MemoDTO memoDTO) {
-        return memoService.add(memoDTO);
+    public String add(@Valid @RequestBody MemoAddInputDTO inputDTO) {
+        return memoService.add(inputDTO);
     }
 
     /**

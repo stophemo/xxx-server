@@ -4,10 +4,10 @@ import cn.dev33.satoken.stp.StpUtil;
 import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.util.IdUtil;
 import cn.hutool.core.util.ObjUtil;
-import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.stp.xxx.config.exception.BusinessException;
 import com.stp.xxx.config.exception.ErrorCodeEnum;
+import com.stp.xxx.dao.CommonMapper;
 import com.stp.xxx.dao.UserMapper;
 import com.stp.xxx.dto.user.UserAddInputDTO;
 import com.stp.xxx.dto.user.UserUpdateInputDTO;
@@ -19,9 +19,6 @@ import jakarta.annotation.Resource;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
-
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 /**
  * <p>
@@ -38,6 +35,8 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
 
     @Resource
     private UserMapper userMapper;
+    @Resource
+    private CommonMapper commonMapper;
 
     @Override
     public String register(UserAddInputDTO inputDTO) {
@@ -63,8 +62,9 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
             String errorMessage = e.getMessage();
             // 判断是否违反唯一约束
             if (errorMessage != null && errorMessage.contains("Duplicate entry")) {
+                log.error(errorMessage);
                 throw new BusinessException(ErrorCodeEnum.DATA_DUPLICATION.getCode(),
-                        SqlExceptionUtil.getDuplicateKeyMessage(errorMessage));
+                        SqlExceptionUtil.getDuplicateKeyMessage(errorMessage, commonMapper));
             } else {
                 throw new BusinessException(e);
             }
@@ -109,7 +109,8 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
 
         boolean checkFlag = userMapper.exists(new QueryWrapper<User>().eq("name", username).eq("password", password));
         if (checkFlag) {
-            StpUtil.login(user.getName());
+            StpUtil.login(user.getId());
+            StpUtil.getSession().set("info", user);
             return "登录成功";
         }
         return "登录失败，密码错误";

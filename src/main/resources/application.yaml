@@ -55,8 +55,8 @@ sa-token:
 springdoc:
   swagger-ui:
     path: /swagger-ui.html
-    tags-sorter: alpha
-    operations-sorter: alpha
+    tags-sorter: order
+    operations-sorter: order
   api-docs:
     path: /v3/api-docs
   group-configs:
