@@ -46,4 +46,8 @@ public class UserAddInputDTO {
 
     @Schema(description = "用户头像")
     private String avatar;
+
+    @Schema(description = "角色", defaultValue = "普通用户")
+    @NotBlank(message = "角色不可为空")
+    private String role;
 }

@@ -1,8 +1,10 @@
 package com.stp.xxx.api;
 
+import cn.hutool.core.bean.BeanUtil;
 import com.github.xiaoymin.knife4j.annotations.ApiOperationSupport;
 import com.github.xiaoymin.knife4j.annotations.ApiSort;
 import com.stp.xxx.dto.memo.MemoAddInputDTO;
+import com.stp.xxx.dto.memo.MemoUpdateInputDTO;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -12,6 +14,8 @@ import org.springframework.web.bind.annotation.*;
 
 import com.stp.xxx.service.MemoService;
 import com.stp.xxx.entity.Memo;
+
+import java.util.List;
 
 /**
  * <p>
@@ -30,17 +34,25 @@ public class MemoController {
     @Resource
     private MemoService memoService;
 
+    @ApiOperationSupport(order = 1)
     @Operation(summary = "获取")
     @GetMapping(value = "get")
-    public String getMemoJson(@RequestParam String username) {
-        return memoService.getMemoJson(username);
+    public List<Memo> getMemo(@RequestParam String username) {
+        return memoService.getMemo(username);
     }
 
-    @ApiOperationSupport(order = 1)
+    @ApiOperationSupport(order = 2)
     @Operation(summary = "新建备忘")
     @PostMapping(value = "add")
     public String add(@Valid @RequestBody MemoAddInputDTO inputDTO) {
         return memoService.add(inputDTO);
+    }
+
+    @ApiOperationSupport(order = 3)
+    @Operation(summary = "更新备忘")
+    @PostMapping(value = "update")
+    public void update(@Valid @RequestBody MemoUpdateInputDTO inputDTO) {
+        memoService.updateById(BeanUtil.copyProperties(inputDTO, Memo.class));
     }
 
     @Operation(summary = "删除备忘")
@@ -49,17 +61,4 @@ public class MemoController {
             @Parameter(description = "备忘ID", required = true) @PathVariable("id") String id) {
         memoService.removeById(id);
     }
-
-    /**
-     * 更新备忘
-     *
-     * @param params 备忘信息
-     */
-    @Operation(summary = "更新备忘")
-    @PostMapping(value = "update")
-    public void update(
-            @Parameter(description = "备忘信息", required = true) @RequestBody Memo params) {
-        memoService.updateById(params);
-    }
-
 }

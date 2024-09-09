@@ -63,4 +63,12 @@ public class UserController {
     public void logout() {
         StpUtil.logout();
     }
+
+    @ApiOperationSupport(order = 5)
+    @Operation(summary = "删除")
+    @Parameter(name = "id", description = "用户id", required = true)
+    @PostMapping("delete")
+    public void delete(@RequestParam String id) {
+        userService.delete(id);
+    }
 }

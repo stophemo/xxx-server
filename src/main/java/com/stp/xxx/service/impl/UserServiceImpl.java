@@ -6,13 +6,16 @@ import cn.hutool.core.util.IdUtil;
 import cn.hutool.core.util.ObjUtil;
 import com.mybatisflex.core.query.QueryWrapper;
 import com.mybatisflex.spring.service.impl.ServiceImpl;
+import com.stp.xxx.util.TokenUtil;
 import com.stp.xxx.config.exception.BusinessException;
 import com.stp.xxx.config.exception.ErrorCodeEnum;
+import com.stp.xxx.constant.SysContant;
 import com.stp.xxx.dao.CommonMapper;
 import com.stp.xxx.dao.UserMapper;
 import com.stp.xxx.dto.user.UserAddInputDTO;
 import com.stp.xxx.dto.user.UserUpdateInputDTO;
 import com.stp.xxx.entity.User;
+import com.stp.xxx.enums.RoleEnum;
 import com.stp.xxx.service.UserService;
 import com.stp.xxx.util.SqlExceptionUtil;
 import lombok.RequiredArgsConstructor;
@@ -40,7 +43,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
     @Override
     public String register(UserAddInputDTO inputDTO) {
         if (exists(QueryWrapper.create().eq("name", inputDTO.getName()))) {
-            return "注册失败，用户名已存在";
+            throw new BusinessException(ErrorCodeEnum.USER_ALREADY_EXISTS);
         }
 
         User user = new User();
@@ -78,19 +81,16 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
         } catch (Exception e) {
             // 获取异常信息
             String errorMessage = e.getMessage();
-
             // 判断是否违反唯一约束
             if (errorMessage != null && errorMessage.contains("Duplicate entry")) {
-                // 获取违反唯一约束的列名
-                String[] parts = errorMessage.split(" ");
-                String duplicateValue = parts[2]; // 违约值
-                String duplicateColumn = parts[5].replace("'", ""); // 违约的列名
-
-                return duplicateColumn + " 已存在: " + duplicateValue;
+                log.error(errorMessage);
+                throw new BusinessException(ErrorCodeEnum.DATA_DUPLICATION.getCode(),
+                        SqlExceptionUtil.getDuplicateKeyMessage(errorMessage, commonMapper));
+            } else {
+                throw new BusinessException(e);
             }
-            return "注册失败：" + errorMessage;
         }
-        return "注册失败";
+        return "修改失败";
     }
 
     @Override
@@ -99,14 +99,27 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
         User user = getOne(QueryWrapper.create().eq("name", username));
 
         if (ObjUtil.isEmpty(user)) {
-            return "登录失败，用户名不存在";
+            throw new BusinessException(ErrorCodeEnum.USER_NOT_FOUND);
         }
 
         if (exists(QueryWrapper.create().eq("name", username).eq("password", password))) {
             StpUtil.login(user.getId());
-            StpUtil.getSession().set("info", user);
+            StpUtil.getSession().set(SysContant.USER_INFO, user);
             return "登录成功";
         }
-        return "登录失败，密码错误";
+        throw new BusinessException(ErrorCodeEnum.USER_AUTHENTICATION_FAILED);
+    }
+
+    @Override
+    public void delete(String id) {
+        // 校验权限
+        User user = TokenUtil.getTokenInfo();
+        if (user != null && !RoleEnum.ADMIN.getName().equals(user.getRole())) {
+            throw new BusinessException(ErrorCodeEnum.USER_PERMISSION_DENIED);
+        }
+
+        if (!removeById(id)) {
+            throw new BusinessException(ErrorCodeEnum.DATA_DELETE_FAILED);
+        }
     }
 }

@@ -51,4 +51,7 @@ public class User extends BaseEntity {
 
     @Column(value = "ordinal", comment = "序号")
     private Integer ordinal;
+
+    @Column(value = "role", comment = "角色")
+    private String role;
 }

@@ -17,11 +17,6 @@ public class ApiInterceptor implements HandlerInterceptor {
     public boolean preHandle(HttpServletRequest request, @NonNull HttpServletResponse response, @NonNull Object handler) {
         HttpSession session = request.getSession();
         UserInfo userInfo = (UserInfo) session.getAttribute("saCookie");
-//        if (userInfo == null || userInfo.getId() <= 0) {
-//            //用户未登录
-//            response.setStatus(401);
-//            return false;
-//        }
         return true;
     }
 

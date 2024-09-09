@@ -4,6 +4,8 @@ import com.mybatisflex.core.service.IService;
 import com.stp.xxx.dto.memo.MemoAddInputDTO;
 import com.stp.xxx.entity.Memo;
 
+import java.util.List;
+
 /**
  * <p>
  * 备忘录表 服务类
@@ -16,5 +18,5 @@ public interface MemoService extends IService<Memo> {
 
     String add(MemoAddInputDTO inputDTO);
 
-    String getMemoJson(String username);
+    List<Memo> getMemo(String username);
 }

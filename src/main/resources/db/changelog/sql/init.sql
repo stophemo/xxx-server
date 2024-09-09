@@ -1,4 +1,4 @@
-
+DROP TABLE IF EXISTS t_sys_user;
 CREATE TABLE t_sys_user
 (
     id          VARCHAR(32) PRIMARY KEY COMMENT '主键ID',
@@ -11,16 +11,15 @@ CREATE TABLE t_sys_user
     avatar      VARCHAR(256)          DEFAULT '' COMMENT '头像',
     status      TINYINT(1)   NOT NULL DEFAULT 1 COMMENT '状态：0=禁用, 1=启用',
     ordinal     INT          NOT NULL AUTO_INCREMENT COMMENT '序号',
-    is_deleted  TINYINT(1)   NOT NULL COMMENT '逻辑删除标记',
+    role        VARCHAR(64)           DEFAULT '普通用户' COMMENT '角色',
+    is_deleted  TINYINT(1)   NOT NULL DEFAULT 0 COMMENT '逻辑删除标记',
     create_time DATETIME     NOT NULL COMMENT '创建时间',
     update_time DATETIME     NOT NULL COMMENT '更新时间',
-    UNIQUE INDEX unique_email (email),
-    UNIQUE INDEX unique_phone (phone),
-    UNIQUE INDEX unique_name (name),
     UNIQUE INDEX unique_ordinal (ordinal)
 ) COMMENT '用户表';
 
 
+DROP TABLE IF EXISTS t_feat_memo;
 CREATE TABLE t_feat_memo
 (
     id          VARCHAR(32) PRIMARY KEY COMMENT '唯一标识符',
@@ -31,8 +30,5 @@ CREATE TABLE t_feat_memo
     priority    INT          NOT NULL DEFAULT 0 COMMENT '优先级',
     is_deleted  TINYINT(1)   NOT NULL COMMENT '逻辑删除标记',
     create_time DATETIME     NOT NULL COMMENT '创建时间',
-    update_time DATETIME     NOT NULL COMMENT '更新时间',
-    INDEX idx_user_id (user_id),
-    INDEX idx_title (title),
-    INDEX idx_tags (tags)
+    update_time DATETIME     NOT NULL COMMENT '更新时间'
 ) COMMENT ='备忘录表';

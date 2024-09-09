@@ -53,4 +53,8 @@ public class UserUpdateInputDTO {
     @Schema(description = "用户排序")
     @Positive(message = "用户排序必须为自然数")
     private Integer ordinal;
+
+    @Schema(description = "角色", defaultValue = "普通用户")
+    @NotBlank(message = "角色不可为空")
+    private String role;
 }
