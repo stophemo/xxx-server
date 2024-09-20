@@ -5,21 +5,21 @@ spring:
     active: local
   application:
     name: xxx-server
-  cloud:
-    nacos:
-      config:
-        server-addr: 192.168.8.30:8848
-        file-extension: yaml
-        username: nacos
-        password: nacos
-      discovery:
-        server-addr: 192.168.8.30:8848
-        username: nacos
-        password: nacos
   config:
     import:
       - optional:nacos:${spring.application.name}-dev.yaml
       - optional:classpath:/custom.yaml
+  cloud:
+    nacos:
+      config:
+        file-extension: yaml
+        group: DEFAULT_GROUP
+        refresh-enabled: true
+logging:
+  file:
+    path: /logs/xxx
+  level:
+    com.alibaba.cloud.nacos.configdata: debug
 ################# MyBatis配置 #################
 mybatis-flex:
   mapper-locations:
@@ -27,7 +27,6 @@ mybatis-flex:
   global-config:
     normal-value-of-logic-delete: false
     deleted-value-of-logic-delete: true
-
 
 ############## Sa-Token 配置 (文档: https://sa-token.cc) ##############
 sa-token:

@@ -5,8 +5,8 @@ plugins {
     id "com.diffplug.eclipse.apt" version "3.26.0"
 }
 
-group = 'com.stp'
-version = '0.1'
+group = 'com.stp.xxx'
+version = '1.0.0'
 
 java {
     toolchain {
@@ -32,6 +32,7 @@ ext {
 
 dependencies {
     implementation('org.springframework.boot:spring-boot-starter-web')
+    implementation('org.springframework.boot:spring-boot-starter-aop')
     // Lombok
     compileOnly 'org.projectlombok:lombok:1.18.28'
     annotationProcessor 'org.projectlombok:lombok:1.18.28'

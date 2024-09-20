@@ -1,5 +1,8 @@
 ################# 数据库配置 #################
 spring:
+  config:
+    activate:
+      on-profile: local
   liquibase:
     change-log: classpath:db/changelog/master.yaml
     enabled: true
@@ -7,13 +10,21 @@ spring:
     url: jdbc:mysql://localhost:3306/xxx?useUnicode=true&characterEncoding=UTF-8
     username: root
     password: root
+  cloud:
+    nacos:
+      config:
+        server-addr: 127.0.0.1:8848
+        file-extension: yaml
+        namespace: dcf8e627-c2b4-4c7a-a848-c801dd162c2b
+      discovery:
+        server-addr: 127.0.0.1:8848
+        namespace: dcf8e627-c2b4-4c7a-a848-c801dd162c2b
+
 #  devtools:
 #    restart:
 #      enabled: true  #设置开启热部署
 #      additional-paths: src/main/java #重启目录
 #      exclude: WEB-INF/**
-logging:
-  file:
-    path: /logs/xxx
+
 
 

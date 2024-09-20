@@ -4,12 +4,15 @@ import cn.hutool.core.bean.BeanUtil;
 import com.github.xiaoymin.knife4j.annotations.ApiOperationSupport;
 import com.github.xiaoymin.knife4j.annotations.ApiSort;
 import com.stp.xxx.dto.memo.MemoAddInputDTO;
+import com.stp.xxx.dto.memo.MemoGetOutputDTO;
 import com.stp.xxx.dto.memo.MemoUpdateInputDTO;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.annotation.Resource;
 import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotBlank;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import com.stp.xxx.service.MemoService;
@@ -37,7 +40,8 @@ public class MemoController {
     @ApiOperationSupport(order = 1)
     @Operation(summary = "获取")
     @GetMapping(value = "get")
-    public List<Memo> getMemo(@RequestParam String username) {
+    public List<MemoGetOutputDTO> getMemo(@RequestParam String username) {
+
         return memoService.getMemo(username);
     }
 

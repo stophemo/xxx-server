@@ -2,6 +2,7 @@ package com.stp.xxx.service;
 
 import com.mybatisflex.core.service.IService;
 import com.stp.xxx.dto.memo.MemoAddInputDTO;
+import com.stp.xxx.dto.memo.MemoGetOutputDTO;
 import com.stp.xxx.entity.Memo;
 
 import java.util.List;
@@ -18,5 +19,5 @@ public interface MemoService extends IService<Memo> {
 
     String add(MemoAddInputDTO inputDTO);
 
-    List<Memo> getMemo(String username);
+    List<MemoGetOutputDTO> getMemo(String username);
 }

@@ -1,10 +1,11 @@
 package com.stp.xxx.service.impl;
 
 import cn.hutool.core.bean.BeanUtil;
+import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.util.IdUtil;
-import cn.hutool.json.JSONUtil;
 import com.mybatisflex.core.query.QueryWrapper;
 import com.mybatisflex.spring.service.impl.ServiceImpl;
+import com.stp.xxx.dto.memo.MemoGetOutputDTO;
 import com.stp.xxx.util.TokenUtil;
 import com.stp.xxx.config.exception.BusinessException;
 import com.stp.xxx.config.exception.ErrorCodeEnum;
@@ -18,6 +19,7 @@ import jakarta.annotation.Resource;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * <p>
@@ -48,7 +50,7 @@ public class MemoServiceImpl extends ServiceImpl<MemoMapper, Memo> implements Me
     }
 
     @Override
-    public List<Memo> getMemo(String username) {
+    public List<MemoGetOutputDTO> getMemo(String username) {
         // 校验用户名
         long userNameCount = userService.count(QueryWrapper.create()
                 .eq("name", username));
@@ -57,10 +59,24 @@ public class MemoServiceImpl extends ServiceImpl<MemoMapper, Memo> implements Me
             throw new BusinessException(ErrorCodeEnum.USER_NOT_FOUND.getCode(), "用户名不存在或用户名异常");
         }
 
-        return memoMapper.selectListByQuery(QueryWrapper.create()
+        List<Memo> memos = memoMapper.selectListByQuery(QueryWrapper.create()
                 .select()
                 .from(Memo.class)
                 .leftJoin(User.class).on(Memo::getUserId, User::getId)
                 .eq(User::getName, username));
+
+        if (CollUtil.isNotEmpty(memos)) {
+            return memos.stream().collect(Collectors.groupingBy(Memo::getTags)).entrySet().stream().map(
+                    entry -> {
+                        if (CollUtil.isEmpty(entry.getValue())) {
+                            return null;
+                        }
+                        return new MemoGetOutputDTO(entry.getKey(), entry.getValue().stream()
+                                .map(memo -> new MemoGetOutputDTO.Content(memo.getTitle(), memo.getContent()))
+                                .toList());
+                    }
+            ).collect(Collectors.toList());
+        }
+        return null;
     }
 }
