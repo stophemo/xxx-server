@@ -4,7 +4,9 @@ import cn.dev33.satoken.stp.StpUtil;
 import com.github.xiaoymin.knife4j.annotations.ApiOperationSupport;
 import com.github.xiaoymin.knife4j.annotations.ApiSort;
 import com.stp.xxx.dto.user.UserAddInputDTO;
+import com.stp.xxx.dto.user.UserInfoGetOutputDTO;
 import com.stp.xxx.dto.user.UserUpdateInputDTO;
+import com.stp.xxx.entity.User;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.Parameters;
@@ -53,7 +55,9 @@ public class UserController {
             @Parameter(name = "username", description = "用户名", required = true),
             @Parameter(name = "password", description = "密码", required = true)})
     @PostMapping("login")
-    public String login(@RequestParam String username, @RequestParam String password) {
+    public String login(
+            @RequestParam("username") String username,
+            @RequestParam("password") String password) {
         return userService.login(username, password);
     }
 
@@ -68,7 +72,14 @@ public class UserController {
     @Operation(summary = "删除")
     @Parameter(name = "id", description = "用户id", required = true)
     @PostMapping("delete")
-    public void delete(@RequestParam String id) {
+    public void delete(@RequestParam("id") String id) {
         userService.delete(id);
+    }
+
+    @ApiOperationSupport(order = 6)
+    @Operation(summary = "获取当前用户信息")
+    @PostMapping("getCurrentUserInfo")
+    public UserInfoGetOutputDTO getCurrentUserInfo() {
+        return userService.getCurrentUserInfo();
     }
 }

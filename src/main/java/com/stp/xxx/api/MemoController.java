@@ -3,11 +3,13 @@ package com.stp.xxx.api;
 import cn.hutool.core.bean.BeanUtil;
 import com.github.xiaoymin.knife4j.annotations.ApiOperationSupport;
 import com.github.xiaoymin.knife4j.annotations.ApiSort;
+import com.mybatisflex.core.paginate.Page;
 import com.stp.xxx.dto.memo.MemoAddInputDTO;
 import com.stp.xxx.dto.memo.MemoGetOutputDTO;
 import com.stp.xxx.dto.memo.MemoUpdateInputDTO;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.Parameters;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.annotation.Resource;
 import jakarta.validation.Valid;
@@ -39,9 +41,9 @@ public class MemoController {
 
     @ApiOperationSupport(order = 1)
     @Operation(summary = "获取")
+    @Parameter(name = "username", description = "用户名", required = true)
     @GetMapping(value = "get")
-    public List<MemoGetOutputDTO> getMemo(@RequestParam String username) {
-
+    public List<MemoGetOutputDTO> getMemo(@RequestParam("username") String username) {
         return memoService.getMemo(username);
     }
 
@@ -59,10 +61,18 @@ public class MemoController {
         memoService.updateById(BeanUtil.copyProperties(inputDTO, Memo.class));
     }
 
+    @ApiOperationSupport(order = 4)
     @Operation(summary = "删除备忘")
-    @PostMapping(value = "del/{id}")
-    public void delete(
-            @Parameter(description = "备忘ID", required = true) @PathVariable("id") String id) {
+    @PostMapping(value = "del")
+    @Parameter(name = "id", description = "备忘ID", required = true)
+    public void delete(@RequestParam("id") String id) {
         memoService.removeById(id);
+    }
+
+    @ApiOperationSupport(order = 5)
+    @Operation(summary = "分页查询备忘")
+    @PostMapping(value = "query")
+    public Page<Memo> query(@RequestBody Page<Memo> param) {
+        return memoService.page(param);
     }
 }

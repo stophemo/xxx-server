@@ -16,4 +16,8 @@ public class TokenUtil {
         }
         return user;
     }
+
+    public static String getAlistToken() {
+        return (String)StpUtil.getSession().get(SysContant.ALIST_TOKEN);
+    }
 }

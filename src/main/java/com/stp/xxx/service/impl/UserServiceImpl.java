@@ -4,8 +4,12 @@ import cn.dev33.satoken.stp.StpUtil;
 import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.util.IdUtil;
 import cn.hutool.core.util.ObjUtil;
+import cn.hutool.json.JSONObject;
+import com.dtflys.forest.http.ForestResponse;
 import com.mybatisflex.core.query.QueryWrapper;
 import com.mybatisflex.spring.service.impl.ServiceImpl;
+import com.stp.xxx.dto.user.UserInfoGetOutputDTO;
+import com.stp.xxx.service.AlistService;
 import com.stp.xxx.util.TokenUtil;
 import com.stp.xxx.config.exception.BusinessException;
 import com.stp.xxx.config.exception.ErrorCodeEnum;
@@ -18,6 +22,7 @@ import com.stp.xxx.entity.User;
 import com.stp.xxx.enums.RoleEnum;
 import com.stp.xxx.service.UserService;
 import com.stp.xxx.util.SqlExceptionUtil;
+import jakarta.annotation.Resource;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,6 +43,9 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
 
     @Autowired
     private CommonMapper commonMapper;
+
+    @Resource
+    private AlistService alistService;
 
 
     @Override
@@ -95,7 +103,6 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
 
     @Override
     public String login(String username, String password) {
-
         User user = getOne(QueryWrapper.create().eq("name", username));
 
         if (ObjUtil.isEmpty(user)) {
@@ -105,9 +112,21 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
         if (exists(QueryWrapper.create().eq("name", username).eq("password", password))) {
             StpUtil.login(user.getId());
             StpUtil.getSession().set(SysContant.USER_INFO, user);
+            // 调用Alist的登录接口
+            try {
+                ForestResponse<JSONObject> response = alistService.getToken(username, password);
+                if (response.isSuccess()) {
+                    JSONObject result = response.getResult();
+                    String token = result.get("data", JSONObject.class).get("token", String.class);
+                    StpUtil.getSession().set(SysContant.ALIST_TOKEN, token);
+                }
+            } catch (Exception e) {
+                log.error("Alist 登录失败", e);
+            }
             return "登录成功";
+        } else {
+            throw new BusinessException(ErrorCodeEnum.USER_AUTHENTICATION_FAILED);
         }
-        throw new BusinessException(ErrorCodeEnum.USER_AUTHENTICATION_FAILED);
     }
 
     @Override
@@ -121,5 +140,12 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
         if (!removeById(id)) {
             throw new BusinessException(ErrorCodeEnum.DATA_DELETE_FAILED);
         }
+    }
+
+    @Override
+    public UserInfoGetOutputDTO getCurrentUserInfo() {
+        UserInfoGetOutputDTO res = BeanUtil.copyProperties(StpUtil.getTokenInfo(), UserInfoGetOutputDTO.class);
+        res.setAlistToken(TokenUtil.getAlistToken());
+        return res;
     }
 }
