@@ -3,6 +3,7 @@ package com.stp.xxx.api;
 import cn.hutool.core.bean.BeanUtil;
 import com.github.xiaoymin.knife4j.annotations.ApiOperationSupport;
 import com.github.xiaoymin.knife4j.annotations.ApiSort;
+import com.github.xiaoymin.knife4j.annotations.ApiSupport;
 import com.mybatisflex.core.paginate.Page;
 import com.stp.xxx.dto.memo.MemoAddInputDTO;
 import com.stp.xxx.dto.memo.MemoGetOutputDTO;
@@ -30,8 +31,8 @@ import java.util.List;
  * @author jackman
  * @since 2024-08-26
  */
-@ApiSort(2)
 @Tag(name = "备忘录")
+@ApiSort(2)
 @RestController
 @RequestMapping("api/memo/")
 public class MemoController {

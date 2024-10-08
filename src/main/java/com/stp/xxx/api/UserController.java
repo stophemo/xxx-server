@@ -3,6 +3,7 @@ package com.stp.xxx.api;
 import cn.dev33.satoken.stp.StpUtil;
 import com.github.xiaoymin.knife4j.annotations.ApiOperationSupport;
 import com.github.xiaoymin.knife4j.annotations.ApiSort;
+import com.github.xiaoymin.knife4j.annotations.ApiSupport;
 import com.stp.xxx.dto.user.UserAddInputDTO;
 import com.stp.xxx.dto.user.UserInfoGetOutputDTO;
 import com.stp.xxx.dto.user.UserUpdateInputDTO;
@@ -25,9 +26,9 @@ import com.stp.xxx.service.UserService;
  * @author stophemo
  * @since 2024-08-20
  */
-@ApiSort(1)
 @RefreshScope
 @Tag(name = "用户管理")
+@ApiSort(1)
 @RestController
 @RequestMapping("api/user/")
 public class UserController {

@@ -1,7 +1,4 @@
 spring:
-  config:
-    activate:
-      on-profile: public
   liquibase:
     change-log: classpath:db/changelog/master.yaml
     enabled: true
@@ -12,10 +9,12 @@ spring:
   cloud:
     nacos:
       config:
-        server-addr: 47.108.189.44:8848
         file-extension: yaml
+        refresh-enabled: true
+        server-addr: 47.108.189.44:8848
         namespace: 640b17c7-0f94-4d75-b8e5-563aa33aedfb
       discovery:
         server-addr: 47.108.189.44:8848
         namespace: 640b17c7-0f94-4d75-b8e5-563aa33aedfb
+
 

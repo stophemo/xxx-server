@@ -9,7 +9,7 @@ import com.dtflys.forest.http.ForestResponse;
 import com.mybatisflex.core.query.QueryWrapper;
 import com.mybatisflex.spring.service.impl.ServiceImpl;
 import com.stp.xxx.dto.user.UserInfoGetOutputDTO;
-import com.stp.xxx.service.AlistService;
+import com.stp.xxx.service.AlistForestService;
 import com.stp.xxx.util.TokenUtil;
 import com.stp.xxx.config.exception.BusinessException;
 import com.stp.xxx.config.exception.ErrorCodeEnum;
@@ -45,7 +45,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
     private CommonMapper commonMapper;
 
     @Resource
-    private AlistService alistService;
+    private AlistForestService alistForestService;
 
 
     @Override
@@ -114,7 +114,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
             StpUtil.getSession().set(SysContant.USER_INFO, user);
             // 调用Alist的登录接口
             try {
-                ForestResponse<JSONObject> response = alistService.getToken(username, password);
+                ForestResponse<JSONObject> response = alistForestService.getToken(username, password);
                 if (response.isSuccess()) {
                     JSONObject result = response.getResult();
                     String token = result.get("data", JSONObject.class).get("token", String.class);

@@ -1,8 +1,4 @@
-################# 数据库配置 #################
 spring:
-  config:
-    activate:
-      on-profile: local
   liquibase:
     change-log: classpath:db/changelog/master.yaml
     enabled: true
@@ -13,8 +9,9 @@ spring:
   cloud:
     nacos:
       config:
-        server-addr: 127.0.0.1:8848
+        refresh-enabled: true
         file-extension: yaml
+        server-addr: 127.0.0.1:8848
         namespace: dcf8e627-c2b4-4c7a-a848-c801dd162c2b
       discovery:
         server-addr: 127.0.0.1:8848

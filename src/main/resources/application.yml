@@ -2,19 +2,17 @@ server:
   port: 9898
 spring:
   profiles:
-    active: local
+    active: dev
   application:
-    name: xxx-server
+    name: xxxx-server
   config:
     import:
       - optional:nacos:${spring.application.name}-dev.yaml
       - optional:classpath:/custom.yaml
-  cloud:
-    nacos:
-      config:
-        file-extension: yaml
-        group: DEFAULT_GROUP
-        refresh-enabled: true
+  servlet:
+    multipart:
+      max-file-size: 10MB
+      max-request-size: 10MB
 logging:
   file:
     path: /logs/xxx
@@ -67,6 +65,8 @@ alist:
   server:
     host: 47.108.189.44
     port: 5244
+  username: admin
+  password: stophemo
 ######################### forest #############################
 forest:
   max-connections: 1000        # 连接池最大连接数
