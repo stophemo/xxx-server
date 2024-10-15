@@ -9,11 +9,11 @@ public class UploadResult {
 
     @Data
     public static class Task {
-        private String error;
         private String id;
         private String name;
-        private long progress;
         private long state;
+        private long progress;
         private String status;
+        private String error;
     }
 }

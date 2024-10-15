@@ -20,4 +20,17 @@ public interface StorageService {
             Boolean asTask,
             String filePath,
             MultipartFile file);
+
+    /**
+     * 通过流上传文件
+     *
+     * @param asTask 是否添加为任务
+     * @param filePath 经过URL编码的完整文件路径
+     * @param file 文件
+     */
+    UploadResult uploadFileByForm(
+            Boolean asTask,
+            String filePath,
+            byte[] file
+    );
 }

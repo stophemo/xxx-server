@@ -11,8 +11,9 @@ spring:
       - optional:classpath:/custom.yaml
   servlet:
     multipart:
-      max-file-size: 10MB
-      max-request-size: 10MB
+      enabled: true
+      max-file-size: 4GB
+      max-request-size: 4GB
 logging:
   file:
     path: /logs/xxx

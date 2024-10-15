@@ -34,10 +34,30 @@ public interface AlistService {
     ResultEntity<UploadResult> uploadFile(
             @RequestHeader("Authorization") String token,
             @RequestHeader("Content-Type") String contentType,
-            @RequestHeader("Content-Length") long contentLength,
+            @RequestHeader("Content-Length") String contentLength,
             @RequestHeader("File-Path") String filePath,
             @RequestHeader(value = "As-Task", required = false) String asTask,
             @RequestPart("file") MultipartFile file
     );
+
+    @PutMapping(value = "/api/fs/put", consumes = MediaType.APPLICATION_OCTET_STREAM_VALUE)
+    ResultEntity<UploadResult> uploadFile(
+            @RequestHeader("Authorization") String token,
+            @RequestHeader("Content-Type") String contentType,
+            @RequestHeader("File-Path") String filePath,
+            @RequestHeader(value = "As-Task", required = false) String asTask,
+            @RequestBody byte[] fileContents
+    );
+
+    @PostMapping(value = "/api/fs/remove", consumes = MediaType.APPLICATION_JSON_VALUE)
+    void removeFilesOrFolders(
+            @RequestHeader("Authorization") String authorization,
+            @RequestBody RemoveFilesOrFoldersRequest request);
+
+    @Data
+    class RemoveFilesOrFoldersRequest {
+        private List<String> names;
+        private String dir;
+    }
 
 }

@@ -14,7 +14,6 @@ import org.springframework.http.MediaType;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.IOException;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 
@@ -36,9 +35,9 @@ public class StorageServiceImpl implements StorageService {
     }
 
     /**
-     * @param asTask        是否添加为任务
-     * @param filePath      经过URL编码的完整文件路径
-     * @param file          文件
+     * @param asTask   是否添加为任务
+     * @param filePath 经过URL编码的完整文件路径
+     * @param file     文件
      */
     @Override
     public UploadResult uploadFileByForm(Boolean asTask, String filePath, MultipartFile file) {
@@ -51,9 +50,36 @@ public class StorageServiceImpl implements StorageService {
         } catch (Exception e) {
             throw new BusinessException("文件路径编码失败");
         }
-        String contentType = MediaType.MULTIPART_FORM_DATA_VALUE + "; boundary=----WebKitFormBoundary" + IdUtil.nanoId(16);
+        String contentType = MediaType.MULTIPART_FORM_DATA_VALUE;
 
-        ResultEntity<UploadResult> uploadResultResultEntity = alistService.uploadFile(token, contentType ,file.getSize(), filePath, String.valueOf(asTask), file);
+        ResultEntity<UploadResult> uploadResultResultEntity = alistService.uploadFile(
+                token, contentType, String.valueOf(file.getSize()), filePath, String.valueOf(asTask), file);
+        return uploadResultResultEntity.getData();
+    }
+
+    /**
+     * 通过流上传文件
+     *
+     * @param asTask   是否添加为任务
+     * @param filePath 经过URL编码的完整文件路径
+     * @param file     文件
+     */
+    @Override
+    public UploadResult uploadFileByForm(Boolean asTask, String filePath, byte[] file) {
+        String token = alistService.getTokenValue(username, password);
+        try {
+            // 使用 URLEncoder.encode 进行 URL 编码，指定编码类型为 UTF-8
+            String encodedFilePath = URLEncoder.encode(filePath, StandardCharsets.UTF_8);
+            // 替换空格符，以保持URL路径中分隔符的正常格式
+            filePath = encodedFilePath.replace("+", "%20");
+        } catch (Exception e) {
+            throw new BusinessException("文件路径编码失败");
+        }
+        String contentType = MediaType.APPLICATION_OCTET_STREAM_VALUE;
+
+        ResultEntity<UploadResult> uploadResultResultEntity = alistService.uploadFile(
+                token, contentType,  filePath, String.valueOf(asTask), file);
+
         return uploadResultResultEntity.getData();
     }
 }
