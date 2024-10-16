@@ -4,7 +4,7 @@ spring:
   profiles:
     active: dev
   application:
-    name: xxxx-server
+    name: xxx-server
   config:
     import:
       - optional:nacos:${spring.application.name}-dev.yaml
