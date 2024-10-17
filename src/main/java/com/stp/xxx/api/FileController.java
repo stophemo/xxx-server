@@ -1,5 +1,6 @@
 package com.stp.xxx.api;
 
+import cn.dev33.satoken.annotation.SaCheckLogin;
 import com.github.xiaoymin.knife4j.annotations.ApiOperationSupport;
 import com.github.xiaoymin.knife4j.annotations.ApiSort;
 import com.stp.xxx.config.exception.BusinessException;
@@ -15,6 +16,7 @@ import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+@SaCheckLogin
 @Tag(name = "文件")
 @ApiSort(4)
 @RestController

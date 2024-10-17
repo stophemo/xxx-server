@@ -1,5 +1,6 @@
 package com.stp.xxx.api;
 
+import cn.dev33.satoken.annotation.SaCheckLogin;
 import com.github.xiaoymin.knife4j.annotations.ApiOperationSupport;
 import com.github.xiaoymin.knife4j.annotations.ApiSort;
 import com.github.xiaoymin.knife4j.annotations.ApiSupport;
@@ -9,6 +10,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.annotation.Resource;
 import org.springframework.web.bind.annotation.*;
 
+@SaCheckLogin
 @Tag(name = "掘金")
 @ApiSort(3)
 @RestController

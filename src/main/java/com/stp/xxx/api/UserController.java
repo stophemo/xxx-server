@@ -1,5 +1,7 @@
 package com.stp.xxx.api;
 
+import cn.dev33.satoken.annotation.SaCheckLogin;
+import cn.dev33.satoken.annotation.SaIgnore;
 import cn.dev33.satoken.stp.StpUtil;
 import com.github.xiaoymin.knife4j.annotations.ApiOperationSupport;
 import com.github.xiaoymin.knife4j.annotations.ApiSort;
@@ -26,6 +28,7 @@ import com.stp.xxx.service.UserService;
  * @author stophemo
  * @since 2024-08-20
  */
+@SaCheckLogin
 @RefreshScope
 @Tag(name = "用户管理")
 @ApiSort(1)
@@ -36,6 +39,7 @@ public class UserController {
     @Resource
     private UserService userService;
 
+    @SaIgnore
     @ApiOperationSupport(order = 1)
     @Operation(summary = "注册")
     @PostMapping("register")
@@ -50,6 +54,7 @@ public class UserController {
         return userService.updateUserInfo(inputDTO);
     }
 
+    @SaIgnore
     @ApiOperationSupport(order = 3)
     @Operation(summary = "登录")
     @Parameters({

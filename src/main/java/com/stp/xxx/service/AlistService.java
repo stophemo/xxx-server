@@ -5,11 +5,13 @@ import com.stp.xxx.dto.alist.auth.LoginResult;
 import com.stp.xxx.dto.alist.fs.FilesGetInputDTO;
 import com.stp.xxx.dto.alist.fs.FilesGetOutputDTO;
 import com.stp.xxx.dto.alist.fs.UploadResult;
+import lombok.Data;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.util.List;
 import java.util.Map;
 
 @FeignClient(name = "alist", url = "${alist.server.host}:${alist.server.port}")
@@ -49,15 +51,15 @@ public interface AlistService {
             @RequestBody byte[] fileContents
     );
 
-    @PostMapping(value = "/api/fs/remove", consumes = MediaType.APPLICATION_JSON_VALUE)
-    void removeFilesOrFolders(
-            @RequestHeader("Authorization") String authorization,
-            @RequestBody RemoveFilesOrFoldersRequest request);
-
-    @Data
-    class RemoveFilesOrFoldersRequest {
-        private List<String> names;
-        private String dir;
-    }
+//    @PostMapping(value = "/api/fs/remove", consumes = MediaType.APPLICATION_JSON_VALUE)
+//    void removeFilesOrFolders(
+//            @RequestHeader("Authorization") String authorization,
+//            @RequestBody RemoveFilesOrFoldersRequest request);
+//
+//    @Data
+//    class RemoveFilesOrFoldersRequest {
+//        private List<String> names;
+//        private String dir;
+//    }
 
 }

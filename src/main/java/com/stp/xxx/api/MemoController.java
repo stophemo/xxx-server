@@ -1,5 +1,6 @@
 package com.stp.xxx.api;
 
+import cn.dev33.satoken.annotation.SaCheckLogin;
 import cn.hutool.core.bean.BeanUtil;
 import com.github.xiaoymin.knife4j.annotations.ApiOperationSupport;
 import com.github.xiaoymin.knife4j.annotations.ApiSort;
@@ -31,6 +32,7 @@ import java.util.List;
  * @author jackman
  * @since 2024-08-26
  */
+@SaCheckLogin
 @Tag(name = "备忘录")
 @ApiSort(2)
 @RestController
