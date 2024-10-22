@@ -26,6 +26,7 @@ import jakarta.annotation.Resource;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 /**
@@ -47,6 +48,8 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
     @Resource
     private AlistForestService alistForestService;
 
+    private BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+
 
     @Override
     public String register(UserAddInputDTO inputDTO) {
@@ -58,6 +61,9 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
         BeanUtil.copyProperties(inputDTO, user);
         user.setId(IdUtil.fastSimpleUUID().toUpperCase());
         user.setStatus(true);
+        // 使用 bcrypt 生成加盐的哈希密码
+        String hashedPassword = passwordEncoder.encode(inputDTO.getPassword());
+        user.setPassword(hashedPassword);
 
         try {
             if (save(user)) {
@@ -109,7 +115,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
             throw new BusinessException(ErrorCodeEnum.USER_NOT_FOUND);
         }
 
-        if (exists(QueryWrapper.create().eq("name", username).eq("password", password))) {
+        if (passwordEncoder.matches(password, user.getPassword())) {
             StpUtil.login(user.getId());
             StpUtil.getSession().set(SysContant.USER_INFO, user);
             // 调用Alist的登录接口
