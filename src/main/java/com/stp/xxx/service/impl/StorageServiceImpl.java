@@ -1,13 +1,14 @@
 package com.stp.xxx.service.impl;
 
-import cn.hutool.core.util.IdUtil;
+import cn.dev33.satoken.stp.StpUtil;
+import cn.hutool.cache.impl.FIFOCache;
 import com.stp.xxx.config.exception.BusinessException;
 import com.stp.xxx.config.result.ResultEntity;
-import com.stp.xxx.dto.alist.fs.FilesGetInputDTO;
-import com.stp.xxx.dto.alist.fs.FilesGetOutputDTO;
-import com.stp.xxx.dto.alist.fs.UploadResult;
+import com.stp.xxx.constant.SysContant;
+import com.stp.xxx.dto.alist.fs.*;
 import com.stp.xxx.service.AlistService;
 import com.stp.xxx.service.StorageService;
+import com.stp.xxx.util.TokenUtil;
 import jakarta.annotation.Resource;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.MediaType;
@@ -17,21 +18,39 @@ import org.springframework.web.multipart.MultipartFile;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 
-
 @Service
 public class StorageServiceImpl implements StorageService {
 
     @Resource
     private AlistService alistService;
     @Value("${alist.username}")
-    private String username;
+    private String alistUsername;
     @Value("${alist.password}")
-    private String password;
+    private String alistPassword;
+
+    public String getAlistCacheToken() {
+        FIFOCache<String, String> tokenCache = TokenUtil.getTokenCache();
+        String token = tokenCache.get(SysContant.ALIST_TOKEN);
+        if (token == null || token.isEmpty()) {
+            String tokenValue = alistService.getTokenValue(alistUsername, alistPassword);
+            tokenCache.put(SysContant.ALIST_TOKEN, tokenValue);
+        }
+        return tokenCache.get(SysContant.ALIST_TOKEN);
+    }
+
+
 
     @Override
     public FilesGetOutputDTO listFiles(FilesGetInputDTO inputDTO) {
-        String token = alistService.getTokenValue(username, password);
+        String token = (String) StpUtil.getSession().get(SysContant.ALIST_TOKEN);
+
         return alistService.listFiles(token, inputDTO).getData();
+    }
+
+    @Override
+    public FileInfoGetOutputDTO getFileInfo(FileInfoGetInputDTO inputDTO) {
+        String token = getAlistCacheToken();
+        return alistService.getFileInfo(token, inputDTO).getData();
     }
 
     /**
@@ -41,7 +60,7 @@ public class StorageServiceImpl implements StorageService {
      */
     @Override
     public UploadResult uploadFileByForm(Boolean asTask, String filePath, MultipartFile file) {
-        String token = alistService.getTokenValue(username, password);
+        String token = getAlistCacheToken();
         try {
             // 使用 URLEncoder.encode 进行 URL 编码，指定编码类型为 UTF-8
             String encodedFilePath = URLEncoder.encode(filePath, StandardCharsets.UTF_8);
@@ -66,7 +85,7 @@ public class StorageServiceImpl implements StorageService {
      */
     @Override
     public UploadResult uploadFileByForm(Boolean asTask, String filePath, byte[] file) {
-        String token = alistService.getTokenValue(username, password);
+        String token = getAlistCacheToken();
         try {
             // 使用 URLEncoder.encode 进行 URL 编码，指定编码类型为 UTF-8
             String encodedFilePath = URLEncoder.encode(filePath, StandardCharsets.UTF_8);

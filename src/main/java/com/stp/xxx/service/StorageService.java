@@ -1,13 +1,19 @@
 package com.stp.xxx.service;
 
-import com.stp.xxx.dto.alist.fs.FilesGetInputDTO;
-import com.stp.xxx.dto.alist.fs.FilesGetOutputDTO;
-import com.stp.xxx.dto.alist.fs.UploadResult;
+import com.stp.xxx.dto.alist.fs.*;
 import org.springframework.web.multipart.MultipartFile;
 
 public interface StorageService {
 
+    /**
+     * 列出文件目录
+     */
     FilesGetOutputDTO listFiles(FilesGetInputDTO inputDTO);
+
+    /**
+     * 获取某个文件/目录信息
+     */
+    FileInfoGetOutputDTO getFileInfo(FileInfoGetInputDTO inputDTO);
 
     /**
      * 通过表单上传文件
@@ -33,4 +39,6 @@ public interface StorageService {
             String filePath,
             byte[] file
     );
+
+
 }

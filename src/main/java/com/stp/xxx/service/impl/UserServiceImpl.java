@@ -4,12 +4,10 @@ import cn.dev33.satoken.stp.StpUtil;
 import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.util.IdUtil;
 import cn.hutool.core.util.ObjUtil;
-import cn.hutool.json.JSONObject;
-import com.dtflys.forest.http.ForestResponse;
 import com.mybatisflex.core.query.QueryWrapper;
 import com.mybatisflex.spring.service.impl.ServiceImpl;
 import com.stp.xxx.dto.user.UserInfoGetOutputDTO;
-import com.stp.xxx.service.AlistForestService;
+import com.stp.xxx.service.AlistService;
 import com.stp.xxx.util.TokenUtil;
 import com.stp.xxx.config.exception.BusinessException;
 import com.stp.xxx.config.exception.ErrorCodeEnum;
@@ -22,10 +20,10 @@ import com.stp.xxx.entity.User;
 import com.stp.xxx.enums.RoleEnum;
 import com.stp.xxx.service.UserService;
 import com.stp.xxx.util.SqlExceptionUtil;
-import jakarta.annotation.Resource;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -44,12 +42,14 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
 
     @Autowired
     private CommonMapper commonMapper;
-
-    @Resource
-    private AlistForestService alistForestService;
+    @Autowired
+    private AlistService alistService;
+    @Value("${alist.username}")
+    private String alistUsername;
+    @Value("${alist.password}")
+    private String alistPassword;
 
     private BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
-
 
     @Override
     public String register(UserAddInputDTO inputDTO) {
@@ -120,12 +120,8 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
             StpUtil.getSession().set(SysContant.USER_INFO, user);
             // 调用Alist的登录接口
             try {
-                ForestResponse<JSONObject> response = alistForestService.getToken(username, password);
-                if (response.isSuccess()) {
-                    JSONObject result = response.getResult();
-                    String token = result.get("data", JSONObject.class).get("token", String.class);
-                    StpUtil.getSession().set(SysContant.ALIST_TOKEN, token);
-                }
+                String alistToken = alistService.getTokenValue(alistUsername, alistPassword);
+                StpUtil.getSession().set(SysContant.ALIST_TOKEN, alistToken);
             } catch (Exception e) {
                 log.error("Alist 登录失败", e);
             }
@@ -151,6 +147,8 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
     @Override
     public UserInfoGetOutputDTO getCurrentUserInfo() {
         UserInfoGetOutputDTO res = BeanUtil.copyProperties(StpUtil.getTokenInfo(), UserInfoGetOutputDTO.class);
+        User user = (User) StpUtil.getSession().get(SysContant.USER_INFO);
+        BeanUtil.copyProperties(user, res);
         res.setAlistToken(TokenUtil.getAlistToken());
         return res;
     }

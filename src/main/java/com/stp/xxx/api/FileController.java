@@ -1,12 +1,11 @@
 package com.stp.xxx.api;
 
 import cn.dev33.satoken.annotation.SaCheckLogin;
+import cn.dev33.satoken.annotation.SaIgnore;
 import com.github.xiaoymin.knife4j.annotations.ApiOperationSupport;
 import com.github.xiaoymin.knife4j.annotations.ApiSort;
 import com.stp.xxx.config.exception.BusinessException;
-import com.stp.xxx.dto.alist.fs.FilesGetInputDTO;
-import com.stp.xxx.dto.alist.fs.FilesGetOutputDTO;
-import com.stp.xxx.dto.alist.fs.UploadResult;
+import com.stp.xxx.dto.alist.fs.*;
 import com.stp.xxx.service.StorageService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -27,15 +26,24 @@ public class FileController {
     private StorageService storageService;
 
     @ApiOperationSupport(order = 1)
-    @Operation(summary = "查询文件目录")
-    @PostMapping(value = "listFiles")
+    @Operation(summary = "列出文件目录")
+    @PostMapping(value = "list")
     public FilesGetOutputDTO listFiles(@RequestBody FilesGetInputDTO inputDTO) {
         return storageService.listFiles(inputDTO);
     }
 
+    @SaIgnore
     @ApiOperationSupport(order = 2)
+    @Operation(summary = "获取某个文件/目录信息")
+    @PostMapping(value = "get")
+    public FileInfoGetOutputDTO getFileInfo(@RequestBody FileInfoGetInputDTO inputDTO) {
+        return storageService.getFileInfo(inputDTO);
+    }
+
+    @SaIgnore
+    @ApiOperationSupport(order = 10)
     @Operation(summary = "表单上传文件")
-    @PostMapping(value = "uploadFileByForm", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    @PostMapping(value = "form", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public UploadResult uploadFileByForm(
             @Parameter(description = "是否作为任务处理，可选参数") @RequestParam(name = "asTask", required = false) Boolean asTask,
             @Parameter(description = "文件保存路径") @RequestParam(name = "filePath") String filePath,
@@ -43,9 +51,10 @@ public class FileController {
         return storageService.uploadFileByForm(asTask, filePath, file);
     }
 
-    @ApiOperationSupport(order = 3)
+    @SaIgnore
+    @ApiOperationSupport(order = 11)
     @Operation(summary = "流式上传文件")
-    @PostMapping(value = "uploadFileByStream")
+    @PostMapping(value = "put")
     public UploadResult uploadFileByStream(
             @Parameter(description = "是否作为任务处理，可选参数") @RequestParam(name = "asTask", required = false) Boolean asTask,
             @Parameter(description = "文件保存路径") @RequestParam(name = "filePath") String filePath,
@@ -58,5 +67,4 @@ public class FileController {
         }
         return storageService.uploadFileByForm(asTask, filePath, fileContents);
     }
-
 }

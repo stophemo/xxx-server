@@ -17,4 +17,15 @@ public class UserInfoGetOutputDTO {
     private String loginDevice;
     private String tag;
     private String alistToken;
+
+    private String id;
+    private String email;
+    private String phone;
+    private String name;
+    private String nickname;
+    private Integer gender;
+    private String avatar;
+    private Boolean status;
+    private Integer ordinal;
+    private String role;
 }

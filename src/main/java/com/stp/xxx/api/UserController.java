@@ -83,7 +83,7 @@ public class UserController {
     }
 
     @ApiOperationSupport(order = 6)
-    @Operation(summary = "获取当前用户信息")
+    @Operation(summary = "获取当前用户登录信息")
     @PostMapping("getCurrentUserInfo")
     public UserInfoGetOutputDTO getCurrentUserInfo() {
         return userService.getCurrentUserInfo();

@@ -2,20 +2,19 @@ package com.stp.xxx.service;
 
 import com.stp.xxx.config.result.ResultEntity;
 import com.stp.xxx.dto.alist.auth.LoginResult;
-import com.stp.xxx.dto.alist.fs.FilesGetInputDTO;
-import com.stp.xxx.dto.alist.fs.FilesGetOutputDTO;
-import com.stp.xxx.dto.alist.fs.UploadResult;
-import lombok.Data;
+import com.stp.xxx.dto.alist.fs.*;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.util.List;
 import java.util.Map;
 
 @FeignClient(name = "alist", url = "${alist.server.host}:${alist.server.port}")
 public interface AlistService {
+
+
 
     @PostMapping("/api/auth/login")
     ResultEntity<LoginResult> getToken(@RequestBody Map<String, String> map);
@@ -30,6 +29,12 @@ public interface AlistService {
     ResultEntity<FilesGetOutputDTO> listFiles(
             @RequestHeader("Authorization") String token,
             @RequestBody FilesGetInputDTO inputDTO
+    );
+
+    @PostMapping("/api/fs/get")
+    ResultEntity<FileInfoGetOutputDTO> getFileInfo(
+            @RequestHeader("Authorization") String token,
+            @RequestBody FileInfoGetInputDTO inputDTO
     );
 
     @PutMapping(value = "/api/fs/form", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
