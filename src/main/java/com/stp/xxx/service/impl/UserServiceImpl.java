@@ -68,6 +68,14 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
         try {
             if (save(user)) {
                 StpUtil.login(user.getName());
+                StpUtil.getSession().set(SysContant.USER_INFO, user);
+                // 调用Alist的登录接口
+                try {
+                    String alistToken = alistService.getTokenValue(alistUsername, alistPassword);
+                    StpUtil.getSession().set(SysContant.ALIST_TOKEN, alistToken);
+                } catch (Exception e) {
+                    log.error("Alist 登录失败", e);
+                }
                 return "注册成功";
             }
         } catch (Exception e) {
@@ -90,6 +98,8 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
         User user = BeanUtil.copyProperties(inputDTO, User.class);
         try {
             if (updateById(user, true)) {
+                User newUser = getById(user.getId());
+                StpUtil.getSession().set(SysContant.USER_INFO, newUser);
                 return "修改成功";
             }
         } catch (Exception e) {

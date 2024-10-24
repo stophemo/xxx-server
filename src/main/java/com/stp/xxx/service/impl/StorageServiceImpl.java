@@ -49,7 +49,8 @@ public class StorageServiceImpl implements StorageService {
 
     @Override
     public FileInfoGetOutputDTO getFileInfo(FileInfoGetInputDTO inputDTO) {
-        String token = getAlistCacheToken();
+//        String token = getAlistCacheToken();
+        String token = (String) StpUtil.getSession().get(SysContant.ALIST_TOKEN);
         return alistService.getFileInfo(token, inputDTO).getData();
     }
 
@@ -60,7 +61,8 @@ public class StorageServiceImpl implements StorageService {
      */
     @Override
     public UploadResult uploadFileByForm(Boolean asTask, String filePath, MultipartFile file) {
-        String token = getAlistCacheToken();
+//        String token = getAlistCacheToken();
+        String token = (String) StpUtil.getSession().get(SysContant.ALIST_TOKEN);
         try {
             // 使用 URLEncoder.encode 进行 URL 编码，指定编码类型为 UTF-8
             String encodedFilePath = URLEncoder.encode(filePath, StandardCharsets.UTF_8);
@@ -85,7 +87,8 @@ public class StorageServiceImpl implements StorageService {
      */
     @Override
     public UploadResult uploadFileByForm(Boolean asTask, String filePath, byte[] file) {
-        String token = getAlistCacheToken();
+//        String token = getAlistCacheToken();
+        String token = (String) StpUtil.getSession().get(SysContant.ALIST_TOKEN);
         try {
             // 使用 URLEncoder.encode 进行 URL 编码，指定编码类型为 UTF-8
             String encodedFilePath = URLEncoder.encode(filePath, StandardCharsets.UTF_8);

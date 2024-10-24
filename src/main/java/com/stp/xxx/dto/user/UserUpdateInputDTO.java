@@ -21,7 +21,6 @@ public class UserUpdateInputDTO {
     private String id;
 
     @Schema(description = "电子邮箱")
-    @NotBlank(message = "电子邮箱不能为空")
     @Email(message = "电子邮箱格式不正确")
     private String email;
 
@@ -35,11 +34,9 @@ public class UserUpdateInputDTO {
     private String name;
 
     @Schema(description = "昵称")
-    @NotBlank(message = "昵称不可为空")
     private String nickname;
 
     @Schema(description = "用户性别")
-    @NotNull(message = "用户性别不能为空")
     @Pattern(regexp = "^[0-2]$", message = "用户性别必须是0、1或2")
     private Integer gender;
 
@@ -55,6 +52,5 @@ public class UserUpdateInputDTO {
     private Integer ordinal;
 
     @Schema(description = "角色", defaultValue = "普通用户")
-    @NotBlank(message = "角色不可为空")
     private String role;
 }

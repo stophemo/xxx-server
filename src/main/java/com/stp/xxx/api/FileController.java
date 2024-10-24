@@ -32,7 +32,6 @@ public class FileController {
         return storageService.listFiles(inputDTO);
     }
 
-    @SaIgnore
     @ApiOperationSupport(order = 2)
     @Operation(summary = "获取某个文件/目录信息")
     @PostMapping(value = "get")
@@ -40,7 +39,6 @@ public class FileController {
         return storageService.getFileInfo(inputDTO);
     }
 
-    @SaIgnore
     @ApiOperationSupport(order = 10)
     @Operation(summary = "表单上传文件")
     @PostMapping(value = "form", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
@@ -51,7 +49,6 @@ public class FileController {
         return storageService.uploadFileByForm(asTask, filePath, file);
     }
 
-    @SaIgnore
     @ApiOperationSupport(order = 11)
     @Operation(summary = "流式上传文件")
     @PostMapping(value = "put")
