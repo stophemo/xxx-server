@@ -61,7 +61,6 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
         BeanUtil.copyProperties(inputDTO, user);
         user.setId(IdUtil.fastSimpleUUID().toUpperCase());
         user.setStatus(true);
-        // 使用 bcrypt 生成加盐的哈希密码
         String hashedPassword = passwordEncoder.encode(inputDTO.getPassword());
         user.setPassword(hashedPassword);
 
