@@ -75,7 +75,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
                 } catch (Exception e) {
                     log.error("Alist 登录失败", e);
                 }
-                return "注册成功";
+                return StpUtil.getTokenValue();
             }
         } catch (Exception e) {
             // 获取异常信息
@@ -89,7 +89,8 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
                 throw new BusinessException(e);
             }
         }
-        return "注册失败";
+
+        throw new BusinessException("注册失败");
     }
 
     @Override
