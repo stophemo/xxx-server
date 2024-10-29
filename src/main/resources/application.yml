@@ -43,6 +43,7 @@ sa-token:
   token-style: simple-uuid
   # 是否输出操作日志
   is-log: true
+
 ################ springdoc-openapi项目配置 ####################
 springdoc:
   swagger-ui:

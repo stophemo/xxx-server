@@ -134,7 +134,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
             } catch (Exception e) {
                 log.error("Alist 登录失败", e);
             }
-            return "登录成功";
+            return StpUtil.getTokenValue();
         } else {
             throw new BusinessException(ErrorCodeEnum.USER_AUTHENTICATION_FAILED);
         }
