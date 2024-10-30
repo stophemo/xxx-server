@@ -2,6 +2,8 @@ package com.stp.xxx.service.impl;
 
 import cn.dev33.satoken.stp.StpUtil;
 import cn.hutool.cache.impl.FIFOCache;
+import cn.hutool.core.util.ReUtil;
+import cn.hutool.core.util.StrUtil;
 import com.stp.xxx.config.exception.BusinessException;
 import com.stp.xxx.config.result.ResultEntity;
 import com.stp.xxx.constant.SysContant;
@@ -43,13 +45,23 @@ public class StorageServiceImpl implements StorageService {
     @Override
     public FilesGetOutputDTO listFiles(FilesGetInputDTO inputDTO) {
         String token = (String) StpUtil.getSession().get(SysContant.ALIST_TOKEN);
-
         return alistService.listFiles(token, inputDTO).getData();
+    }
+
+    private String extractDirectory(String path) {
+        String pattern = "(.+)/[^/]+$";
+        String directory = ReUtil.get(pattern, path, 1);
+        if (StrUtil.isNotBlank(directory)) {
+            return directory;
+        }
+        return null;
     }
 
     @Override
     public FileInfoGetOutputDTO getFileInfo(FileInfoGetInputDTO inputDTO) {
-//        String token = getAlistCacheToken();
+        String directory = extractDirectory(inputDTO.getPath());
+        // 获取前先刷新目录
+        listFiles(new FilesGetInputDTO(1L,"",directory, 1000L, true));
         String token = (String) StpUtil.getSession().get(SysContant.ALIST_TOKEN);
         return alistService.getFileInfo(token, inputDTO).getData();
     }
@@ -61,7 +73,6 @@ public class StorageServiceImpl implements StorageService {
      */
     @Override
     public UploadResult uploadFileByForm(Boolean asTask, String filePath, MultipartFile file) {
-//        String token = getAlistCacheToken();
         String token = (String) StpUtil.getSession().get(SysContant.ALIST_TOKEN);
         try {
             // 使用 URLEncoder.encode 进行 URL 编码，指定编码类型为 UTF-8
@@ -87,7 +98,6 @@ public class StorageServiceImpl implements StorageService {
      */
     @Override
     public UploadResult uploadFileByForm(Boolean asTask, String filePath, byte[] file) {
-//        String token = getAlistCacheToken();
         String token = (String) StpUtil.getSession().get(SysContant.ALIST_TOKEN);
         try {
             // 使用 URLEncoder.encode 进行 URL 编码，指定编码类型为 UTF-8
