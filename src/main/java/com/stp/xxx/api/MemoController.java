@@ -1,24 +1,18 @@
 package com.stp.xxx.api;
 
 import cn.dev33.satoken.annotation.SaCheckLogin;
+import cn.dev33.satoken.annotation.SaIgnore;
 import cn.hutool.core.bean.BeanUtil;
 import com.github.xiaoymin.knife4j.annotations.ApiOperationSupport;
 import com.github.xiaoymin.knife4j.annotations.ApiSort;
-import com.github.xiaoymin.knife4j.annotations.ApiSupport;
-import com.mybatisflex.core.paginate.Page;
-import com.mybatisflex.core.query.QueryCondition;
-import com.mybatisflex.core.query.QueryWrapper;
-import com.stp.xxx.dto.memo.MemoAddInputDTO;
-import com.stp.xxx.dto.memo.MemoGetOutputDTO;
-import com.stp.xxx.dto.memo.MemoUpdateInputDTO;
+import com.stp.xxx.dto.memo.*;
+import com.stp.xxx.util.page.PageParam;
+import com.stp.xxx.util.page.PageResult;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
-import io.swagger.v3.oas.annotations.Parameters;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.annotation.Resource;
 import jakarta.validation.Valid;
-import jakarta.validation.constraints.NotBlank;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import com.stp.xxx.service.MemoService;
@@ -44,31 +38,32 @@ public class MemoController {
     @Resource
     private MemoService memoService;
 
+    @SaIgnore
     @ApiOperationSupport(order = 1)
     @Operation(summary = "获取")
     @Parameter(name = "username", description = "用户名", required = true)
-    @GetMapping(value = "get")
-    public List<MemoGetOutputDTO> getMemo(@RequestParam("username") String username) {
-        return memoService.getMemo(username);
+    @PostMapping(value = "getUserMemo")
+    public List<MemoGetOutputDTO> getUserMemo(@RequestParam("username") String username) {
+        return memoService.getUserMemo(username);
     }
 
     @ApiOperationSupport(order = 2)
     @Operation(summary = "新建备忘")
-    @PostMapping(value = "add")
-    public String add(@Valid @RequestBody MemoAddInputDTO inputDTO) {
+    @PostMapping(value = "addMemo")
+    public String addMemo(@Valid @RequestBody MemoAddInputDTO inputDTO) {
         return memoService.add(inputDTO);
     }
 
     @ApiOperationSupport(order = 3)
     @Operation(summary = "更新备忘")
-    @PostMapping(value = "update")
-    public void update(@Valid @RequestBody MemoUpdateInputDTO inputDTO) {
+    @PostMapping(value = "updateMemo")
+    public void updateMemo(@Valid @RequestBody MemoUpdateInputDTO inputDTO) {
         memoService.updateById(BeanUtil.copyProperties(inputDTO, Memo.class));
     }
 
     @ApiOperationSupport(order = 4)
     @Operation(summary = "删除备忘")
-    @PostMapping(value = "del")
+    @PostMapping(value = "deleteMemo")
     @Parameter(name = "id", description = "备忘ID", required = true)
     public void delete(@RequestParam("id") String id) {
         memoService.removeById(id);
@@ -76,10 +71,8 @@ public class MemoController {
 
     @ApiOperationSupport(order = 5)
     @Operation(summary = "分页查询备忘")
-    @PostMapping(value = "query")
-    public Page<Memo> query(@RequestBody Page<Memo> param) {
-        return memoService.page(param, QueryWrapper.create()
-                .eq(Memo::getId, param.getRecords().get(0).getId())
-                .eq(Memo::getUserId, param.getRecords().get(0).getUserId()));
+    @PostMapping(value = "queryMemo")
+    public PageResult<MemoQueryResult> queryMemo(@Valid @RequestBody PageParam<MemoQueryParam> param) {
+        return memoService.queryMemo(param);
     }
 }

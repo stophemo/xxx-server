@@ -1,9 +1,12 @@
 package com.stp.xxx.service;
 
-import com.mybatisflex.core.paginate.Page;
 import com.mybatisflex.core.service.IService;
 import com.stp.xxx.dto.memo.MemoAddInputDTO;
 import com.stp.xxx.dto.memo.MemoGetOutputDTO;
+import com.stp.xxx.dto.memo.MemoQueryParam;
+import com.stp.xxx.dto.memo.MemoQueryResult;
+import com.stp.xxx.util.page.PageParam;
+import com.stp.xxx.util.page.PageResult;
 import com.stp.xxx.entity.Memo;
 
 import java.util.List;
@@ -20,7 +23,7 @@ public interface MemoService extends IService<Memo> {
 
     String add(MemoAddInputDTO inputDTO);
 
-    List<MemoGetOutputDTO> getMemo(String username);
+    List<MemoGetOutputDTO> getUserMemo(String username);
 
-    Page<Memo> pageQuery(Page);
+    PageResult<MemoQueryResult> queryMemo(PageParam<MemoQueryParam> param);
 }

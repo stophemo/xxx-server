@@ -1,6 +1,5 @@
 package com.stp.xxx.config.exception;
 
-import cn.dev33.satoken.exception.NotLoginException;
 import com.stp.xxx.config.result.ResultEntity;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -22,8 +21,11 @@ public class GlobalExceptionHandler {
     @ResponseBody
     public ResultEntity<?> exception(Exception e) {
         ResultEntity<?> resultEntity = switch (e.getClass().getSimpleName()) {
-            case "NotLoginException" -> ResultEntity.error(ErrorCodeEnum.USER_TOKEN_EXPIRED.getCode(), ErrorCodeEnum.USER_TOKEN_EXPIRED.getMessage(), e.getCause());
-            default -> ResultEntity.error(ErrorCodeEnum.UNKNOWN_ERROR.getCode(), e.getMessage(), e.getCause());
+            case "NotLoginException" ->
+                    ResultEntity.error(ErrorCodeEnum.USER_TOKEN_EXPIRED.getCode(), ErrorCodeEnum.USER_TOKEN_EXPIRED.getMessage(), e.getCause());
+            //...
+            default ->
+                    ResultEntity.error(ErrorCodeEnum.UNKNOWN_ERROR.getCode(), e.getMessage(), e.getCause());
         };
 
         log.error("异常：", e);

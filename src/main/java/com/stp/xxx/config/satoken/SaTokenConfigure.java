@@ -2,14 +2,11 @@ package com.stp.xxx.config.satoken;
 
 import cn.dev33.satoken.SaManager;
 import cn.dev33.satoken.context.SaHolder;
-import cn.dev33.satoken.context.model.SaRequest;
 import cn.dev33.satoken.filter.SaServletFilter;
 import cn.dev33.satoken.interceptor.SaInterceptor;
 import cn.dev33.satoken.router.SaHttpMethod;
 import cn.dev33.satoken.router.SaRouter;
-import cn.dev33.satoken.spring.SpringMVCUtil;
 import cn.dev33.satoken.stp.StpUtil;
-import cn.dev33.satoken.util.SaFoxUtil;
 import cn.dev33.satoken.util.SaResult;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -23,7 +20,7 @@ public class SaTokenConfigure implements WebMvcConfigurer {
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
         // 注册 Sa-Token 拦截器，打开注解式鉴权功能
-        registry.addInterceptor(new SaInterceptor()).addPathPatterns("/api");
+        registry.addInterceptor(new SaInterceptor()).addPathPatterns("/api/**");
     }
 
     /**
@@ -40,7 +37,10 @@ public class SaTokenConfigure implements WebMvcConfigurer {
                     // ...
                 })
                 // 异常处理函数：每次认证函数发生异常时执行此函数
-                .setError(e -> SaResult.error(e.getMessage()))
+                .setError(e -> {
+                    return SaResult.error(e.getMessage());
+                })
+
                 // 前置函数：在每次认证函数之前执行
                 .setBeforeAuth(obj -> {
                     SaHolder.getResponse()
@@ -53,10 +53,9 @@ public class SaTokenConfigure implements WebMvcConfigurer {
                             .setHeader("Access-Control-Allow-Headers", "*")
                             // 有效时间
                             .setHeader("Access-Control-Max-Age", "3600");
+
                     // 如果是预检请求，则立即返回到前端
-                    SaRouter.match(SaHttpMethod.OPTIONS)
-                            .free(r -> System.out.println("--------OPTIONS预检请求，不做处理"))
-                            .back();
+                    SaRouter.match(SaHttpMethod.OPTIONS).free(r -> System.out.println("--------OPTIONS预检请求，不做处理")).back();
                 });
     }
 }

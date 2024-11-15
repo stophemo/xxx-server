@@ -34,8 +34,8 @@ public class Memo extends BaseEntity {
     @Column(value = "content", comment = "内容")
     private String content;
 
-    @Column(value = "tags", comment = "标签")
-    private String tags;
+    @Column(value = "tag", comment = "标签")
+    private String tag;
 
     @Column(value = "priority", comment = "优先级")
     private Integer priority;

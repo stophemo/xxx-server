@@ -13,7 +13,7 @@ import java.util.List;
 public class MemoGetOutputDTO {
 
     @Schema(description = "标签")
-    private String tags;
+    private String tag;
 
     @Schema(description = "内容集合")
     private List<Content> contentList;
@@ -22,6 +22,9 @@ public class MemoGetOutputDTO {
     @NoArgsConstructor
     @Data
     public static class Content {
+
+        @Schema(description = "id")
+        private String id;
 
         @Schema(description = "标题")
         private String title;

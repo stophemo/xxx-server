@@ -2,6 +2,7 @@ package com.stp.xxx.entity.base;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.mybatisflex.annotation.Column;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -19,7 +20,7 @@ public abstract class BaseEntity implements Serializable {
     /**
      * 记录是否已删除
      */
-
+    @Schema(description = "是否删除", example = "false")
     @Column(value = "is_deleted", isLogicDelete = true)
     private Boolean isDeleted;
 
