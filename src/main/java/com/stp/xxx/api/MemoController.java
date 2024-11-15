@@ -6,6 +6,8 @@ import com.github.xiaoymin.knife4j.annotations.ApiOperationSupport;
 import com.github.xiaoymin.knife4j.annotations.ApiSort;
 import com.github.xiaoymin.knife4j.annotations.ApiSupport;
 import com.mybatisflex.core.paginate.Page;
+import com.mybatisflex.core.query.QueryCondition;
+import com.mybatisflex.core.query.QueryWrapper;
 import com.stp.xxx.dto.memo.MemoAddInputDTO;
 import com.stp.xxx.dto.memo.MemoGetOutputDTO;
 import com.stp.xxx.dto.memo.MemoUpdateInputDTO;
@@ -76,6 +78,8 @@ public class MemoController {
     @Operation(summary = "分页查询备忘")
     @PostMapping(value = "query")
     public Page<Memo> query(@RequestBody Page<Memo> param) {
-        return memoService.page(param);
+        return memoService.page(param, QueryWrapper.create()
+                .eq(Memo::getId, param.getRecords().get(0).getId())
+                .eq(Memo::getUserId, param.getRecords().get(0).getUserId()));
     }
 }

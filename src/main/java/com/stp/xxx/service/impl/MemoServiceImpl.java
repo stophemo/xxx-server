@@ -43,10 +43,17 @@ public class MemoServiceImpl extends ServiceImpl<MemoMapper, Memo> implements Me
         Memo memo = BeanUtil.copyProperties(inputDTO, Memo.class);
         memo.setId(IdUtil.fastSimpleUUID().toUpperCase());
         memo.setUserId(user.getId());
-        if (save(memo)) {
+        // 校验是否已存在
+        if (exists(QueryWrapper.create()
+                .eq("user_id", memo.getUserId())
+                .eq("tags", memo.getTags())
+                .eq("title", memo.getTitle()))) {
+            throw new BusinessException(ErrorCodeEnum.MEMO_ALREADY_EXISTS);
+        } else if (save(memo)) {
             return memo.getId();
+        } else {
+            return "创建失败";
         }
-        return "创建失败";
     }
 
     @Override

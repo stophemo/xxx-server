@@ -1,5 +1,6 @@
 package com.stp.xxx.service;
 
+import com.mybatisflex.core.paginate.Page;
 import com.mybatisflex.core.service.IService;
 import com.stp.xxx.dto.memo.MemoAddInputDTO;
 import com.stp.xxx.dto.memo.MemoGetOutputDTO;
@@ -20,4 +21,6 @@ public interface MemoService extends IService<Memo> {
     String add(MemoAddInputDTO inputDTO);
 
     List<MemoGetOutputDTO> getMemo(String username);
+
+    Page<Memo> pageQuery(Page);
 }

@@ -70,7 +70,8 @@ public enum ErrorCodeEnum {
     // 业务相关错误码
     OPERATION_FAILED(4001, "操作失败"),
     OPERATION_NOT_ALLOWED(4002, "操作不允许"),
-    INVALID_OPERATION(4003, "无效操作");
+    INVALID_OPERATION(4003, "无效操作"),
+    MEMO_ALREADY_EXISTS(4004, "备忘录已存在");
 
     private final int code;
     private final String message;
