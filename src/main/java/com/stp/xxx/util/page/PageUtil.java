@@ -1,6 +1,5 @@
 package com.stp.xxx.util.page;
 
-import cn.hutool.cache.CacheUtil;
 import com.mybatisflex.core.BaseMapper;
 import com.mybatisflex.core.paginate.Page;
 import com.mybatisflex.core.query.QueryWrapper;

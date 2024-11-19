@@ -18,18 +18,7 @@ databaseChangeLog:
   - changeSet:
       id: init
       author: stp
-      runOnChange: false
+      runOnChange: true
       changes:
         - sqlFile:
             path: db/changelog/sql/init.sql
-  - changeSet:
-      id: modify_tags_in_t_feat_memo
-      author: stp
-      runOnChange: true
-      changes:
-        - renameColumn:
-            oldColumnName: tag
-            newColumnName: tag
-            columnDataType: VARCHAR(255)
-            remarks: 标签
-            tableName: t_feat_memo

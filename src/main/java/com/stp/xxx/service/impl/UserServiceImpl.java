@@ -1,9 +1,6 @@
 package com.stp.xxx.service.impl;
 
 import cn.dev33.satoken.stp.StpUtil;
-import cn.hutool.core.bean.BeanUtil;
-import cn.hutool.core.util.IdUtil;
-import cn.hutool.core.util.ObjUtil;
 import com.mybatisflex.core.query.QueryWrapper;
 import com.mybatisflex.spring.service.impl.ServiceImpl;
 import com.stp.xxx.dto.user.UserInfoGetOutputDTO;
@@ -22,6 +19,9 @@ import com.stp.xxx.service.UserService;
 import com.stp.xxx.util.SqlExceptionUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.dromara.hutool.core.bean.BeanUtil;
+import org.dromara.hutool.core.data.id.IdUtil;
+import org.dromara.hutool.core.util.ObjUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;

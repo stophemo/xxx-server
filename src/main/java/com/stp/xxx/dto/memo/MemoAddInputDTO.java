@@ -18,8 +18,8 @@ public class MemoAddInputDTO {
     @NotBlank(message = "内容不能为空")
     private String content;
 
-    @Schema(description = "备忘录标签，使用逗号分隔", example = "工作,重要")
-    private String tags = "default";
+    @Schema(description = "备忘录标签", example = "工作")
+    private String tag = "default";
 
     @Schema(description = "优先级", example = "1", defaultValue = "0")
     @NotNull(message = "优先级不能为空")

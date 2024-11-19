@@ -49,9 +49,6 @@ public class User extends BaseEntity {
     @Column(value = "status", comment = "状态：0=禁用, 1=启用")
     private Boolean status;
 
-    @Column(value = "ordinal", comment = "序号")
-    private Integer ordinal;
-
     @Column(value = "role", comment = "角色")
     private String role;
 }

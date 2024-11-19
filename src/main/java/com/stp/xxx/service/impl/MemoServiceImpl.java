@@ -1,11 +1,9 @@
 package com.stp.xxx.service.impl;
 
-import cn.hutool.cache.CacheUtil;
-import cn.hutool.cache.impl.TimedCache;
-import cn.hutool.core.bean.BeanUtil;
-import cn.hutool.core.collection.CollUtil;
-import cn.hutool.core.util.IdUtil;
-import cn.hutool.core.util.ObjUtil;
+import org.dromara.hutool.core.bean.BeanUtil;
+import org.dromara.hutool.core.cache.CacheUtil;
+import org.dromara.hutool.core.cache.impl.TimedCache;
+import org.dromara.hutool.core.collection.CollUtil;
 import com.mybatisflex.core.paginate.Page;
 import com.mybatisflex.core.query.QueryChain;
 import com.mybatisflex.core.query.QueryWrapper;
@@ -27,6 +25,7 @@ import com.stp.xxx.entity.User;
 import com.stp.xxx.service.MemoService;
 import com.stp.xxx.service.UserService;
 import jakarta.annotation.Resource;
+import org.dromara.hutool.core.data.id.IdUtil;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -58,7 +57,7 @@ public class MemoServiceImpl extends ServiceImpl<MemoMapper, Memo> implements Me
         // 校验是否已存在
         if (exists(QueryWrapper.create()
                 .eq("user_id", memo.getUserId())
-                .eq("tags", memo.getTag())
+                .eq("tag", memo.getTag())
                 .eq("title", memo.getTitle()))) {
             throw new BusinessException(ErrorCodeEnum.MEMO_ALREADY_EXISTS);
         } else if (save(memo)) {

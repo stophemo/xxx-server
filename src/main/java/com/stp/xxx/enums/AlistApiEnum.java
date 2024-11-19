@@ -1,7 +1,7 @@
 package com.stp.xxx.enums;
 
-import cn.hutool.core.util.StrUtil;
 import lombok.Getter;
+import org.dromara.hutool.core.text.StrUtil;
 import org.springframework.beans.factory.annotation.Value;
 
 /**

@@ -1,6 +1,5 @@
 package com.stp.xxx.dto.memo;
 
-import cn.hutool.core.util.ObjUtil;
 import lombok.Data;
 
 import java.time.LocalDate;

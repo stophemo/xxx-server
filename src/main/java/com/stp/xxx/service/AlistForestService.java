@@ -1,9 +1,9 @@
 package com.stp.xxx.service;
 
-import cn.hutool.json.JSONObject;
 import com.dtflys.forest.annotation.*;
 import com.dtflys.forest.http.ForestResponse;
 import com.stp.xxx.config.forest.AddressConfig;
+import org.dromara.hutool.json.JSONObject;
 
 @Address(source = AddressConfig.class)
 public interface AlistForestService {

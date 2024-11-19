@@ -1,14 +1,14 @@
 package com.stp.xxx.util;
 
 import cn.dev33.satoken.stp.StpUtil;
-import cn.hutool.cache.CacheUtil;
-import cn.hutool.cache.impl.FIFOCache;
-import cn.hutool.core.util.ObjUtil;
 import com.stp.xxx.config.exception.BusinessException;
 import com.stp.xxx.config.exception.ErrorCodeEnum;
 import com.stp.xxx.constant.SysContant;
 import com.stp.xxx.entity.User;
 import lombok.Getter;
+import org.dromara.hutool.core.cache.CacheUtil;
+import org.dromara.hutool.core.cache.impl.FIFOCache;
+import org.dromara.hutool.core.util.ObjUtil;
 
 public class TokenUtil {
 

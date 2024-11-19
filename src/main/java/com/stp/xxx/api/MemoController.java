@@ -2,7 +2,6 @@ package com.stp.xxx.api;
 
 import cn.dev33.satoken.annotation.SaCheckLogin;
 import cn.dev33.satoken.annotation.SaIgnore;
-import cn.hutool.core.bean.BeanUtil;
 import com.github.xiaoymin.knife4j.annotations.ApiOperationSupport;
 import com.github.xiaoymin.knife4j.annotations.ApiSort;
 import com.stp.xxx.dto.memo.*;
@@ -13,6 +12,7 @@ import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.annotation.Resource;
 import jakarta.validation.Valid;
+import org.dromara.hutool.core.bean.BeanUtil;
 import org.springframework.web.bind.annotation.*;
 
 import com.stp.xxx.service.MemoService;

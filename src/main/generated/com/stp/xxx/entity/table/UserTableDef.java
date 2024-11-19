@@ -32,25 +32,14 @@ public class UserTableDef extends TableDef {
 
     public final QueryColumn STATUS = new QueryColumn(this, "status");
 
-    public final QueryColumn ORDINAL = new QueryColumn(this, "ordinal");
-
     public final QueryColumn NICKNAME = new QueryColumn(this, "nickname");
 
     public final QueryColumn PASSWORD = new QueryColumn(this, "password");
 
-    /**
-     * 记录是否已删除
-     */
     public final QueryColumn IS_DELETED = new QueryColumn(this, "is_deleted");
 
-    /**
-     * 创建时间
-     */
     public final QueryColumn CREATE_TIME = new QueryColumn(this, "create_time");
 
-    /**
-     * 最后修改时间
-     */
     public final QueryColumn UPDATE_TIME = new QueryColumn(this, "update_time");
 
     /**
@@ -61,7 +50,7 @@ public class UserTableDef extends TableDef {
     /**
      * 默认字段，不包含逻辑删除或者 large 等字段。
      */
-    public final QueryColumn[] DEFAULT_COLUMNS = new QueryColumn[]{ID, NAME, ROLE, EMAIL, PHONE, AVATAR, GENDER, STATUS, ORDINAL, NICKNAME, PASSWORD, CREATE_TIME, UPDATE_TIME};
+    public final QueryColumn[] DEFAULT_COLUMNS = new QueryColumn[]{ID, NAME, ROLE, EMAIL, PHONE, AVATAR, GENDER, STATUS, NICKNAME, PASSWORD, CREATE_TIME, UPDATE_TIME};
 
     public UserTableDef() {
         super("", "t_sys_user");

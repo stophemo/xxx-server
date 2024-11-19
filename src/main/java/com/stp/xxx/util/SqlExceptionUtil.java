@@ -1,7 +1,7 @@
 package com.stp.xxx.util;
 
-import cn.hutool.core.util.StrUtil;
 import com.stp.xxx.dao.CommonMapper;
+import org.dromara.hutool.core.text.StrUtil;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
