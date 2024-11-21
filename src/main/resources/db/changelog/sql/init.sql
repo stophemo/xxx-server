@@ -23,7 +23,7 @@ CREATE TABLE t_feat_memo
     user_id     CHAR(32)     NOT NULL COMMENT '用户ID，关联到用户表',
     title       VARCHAR(255) NOT NULL COMMENT '备忘录标题',
     content     TEXT COMMENT '备忘录内容',
-    tag         VARCHAR(255) NOT NULL UNIQUE COMMENT '标签',
+    tag         VARCHAR(255) DEFAULT 'DEFAULT' COMMENT '标签',
     priority    INT          NOT NULL DEFAULT 0 COMMENT '优先级',
     is_deleted  TINYINT(1)   NOT NULL DEFAULT 0 COMMENT '逻辑删除标记',
     create_time DATETIME     NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
@@ -32,4 +32,3 @@ CREATE TABLE t_feat_memo
 ) COMMENT '备忘录表';
 
 CREATE INDEX idx_user_id ON t_feat_memo (user_id);
-CREATE INDEX idx_tag ON t_feat_memo (tag);

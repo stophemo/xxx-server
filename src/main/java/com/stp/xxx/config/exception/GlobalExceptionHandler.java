@@ -1,5 +1,6 @@
 package com.stp.xxx.config.exception;
 
+import cn.dev33.satoken.exception.NotLoginException;
 import com.stp.xxx.config.result.ResultEntity;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -12,23 +13,22 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(BusinessException.class)
     @ResponseBody
-    public ResultEntity<?> businessException(BusinessException e) {
+    public ResultEntity<?> handleBusinessException(BusinessException e) {
         log.error("业务异常：", e);
         return ResultEntity.error(e);
     }
 
+    @ExceptionHandler(NotLoginException.class)
+    @ResponseBody
+    public ResultEntity<?> handleNotLoginException(NotLoginException e) {
+        log.error("未登录：", e);
+        return ResultEntity.error(ErrorCodeEnum.USER_TOKEN_EXPIRED.getCode(), ErrorCodeEnum.USER_TOKEN_EXPIRED.getMessage(), e.getCause());
+    }
+
     @ExceptionHandler(Exception.class)
     @ResponseBody
-    public ResultEntity<?> exception(Exception e) {
-        ResultEntity<?> resultEntity = switch (e.getClass().getSimpleName()) {
-            case "NotLoginException" ->
-                    ResultEntity.error(ErrorCodeEnum.USER_TOKEN_EXPIRED.getCode(), ErrorCodeEnum.USER_TOKEN_EXPIRED.getMessage(), e.getCause());
-            //...
-            default ->
-                    ResultEntity.error(ErrorCodeEnum.UNKNOWN_ERROR.getCode(), e.getMessage(), e.getCause());
-        };
-
-        log.error("异常：", e);
-        return resultEntity;
+    public ResultEntity<?> handleUnknownException(Exception e) {
+        log.error("未知异常：", e);
+        return ResultEntity.error(ErrorCodeEnum.UNKNOWN_ERROR.getCode(), e.getMessage(), e.getCause());
     }
 }

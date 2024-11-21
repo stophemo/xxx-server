@@ -34,11 +34,13 @@ public interface StorageService {
      * @param filePath 经过URL编码的完整文件路径
      * @param file 文件
      */
-    UploadResult uploadFileByForm(
+    UploadResult uploadFileByStream(
             Boolean asTask,
             String filePath,
             byte[] file
     );
 
 
+    String uploadImage(String filePath,
+                       MultipartFile file);
 }

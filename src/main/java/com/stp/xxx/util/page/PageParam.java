@@ -18,7 +18,7 @@ public class PageParam<T> {
     @Schema(description = "每页数据数量", example = "20")
     private long pageSize = 20;
 
-    @Schema(description = "过滤Dto对象", required = true)
+    @Schema(description = "过滤Dto对象")
     @NotNull(message = "filter-不能为空")
     private T filter;
 }

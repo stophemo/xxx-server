@@ -71,7 +71,8 @@ public enum ErrorCodeEnum {
     OPERATION_FAILED(4001, "操作失败"),
     OPERATION_NOT_ALLOWED(4002, "操作不允许"),
     INVALID_OPERATION(4003, "无效操作"),
-    MEMO_ALREADY_EXISTS(4004, "备忘录已存在");
+    MEMO_ALREADY_EXISTS(4004, "备忘录已存在"),
+    INVALID_PARAMETER(4004, "非法参数");
 
     private final int code;
     private final String message;
