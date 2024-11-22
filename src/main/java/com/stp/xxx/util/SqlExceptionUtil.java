@@ -19,12 +19,13 @@ public class SqlExceptionUtil {
             // t_sys_user.unique_name
             String key = matcher.group(2);
             String tableName = StrUtil.subBefore(key, ".", false);
-            if (StrUtil.endWith(key, "PRIMARY")) {
-                return StrUtil.format("{}已存在：{}", mapper.getPrimaryKeyComment(tableName), entry);
-            } else {
-                String fieldName = StrUtil.subAfter(key, "_", true);
-                return StrUtil.format("{}已存在：{}", mapper.getFieldCommentByName(tableName, fieldName), entry);
-            }
+            return StrUtil.format("{}已存在：{}", key, entry);
+//            if (StrUtil.endWith(key, "PRIMARY")) {
+//                return StrUtil.format("{}已存在：{}", mapper.getPrimaryKeyComment(tableName), entry);
+//            } else {
+//                String fieldName = StrUtil.subAfter(key, "_", true);
+//                return StrUtil.format("{}已存在：{}", mapper.getFieldCommentByName(tableName, fieldName), entry);
+//            }
 
 
         } else {

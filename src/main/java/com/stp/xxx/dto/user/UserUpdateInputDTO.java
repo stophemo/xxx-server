@@ -1,16 +1,19 @@
 package com.stp.xxx.dto.user;
 
-import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.*;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.validator.constraints.Range;
 
 /**
  * <p>
  * 用户更新DTO
  * </p>
  */
+
+
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
@@ -37,14 +40,14 @@ public class UserUpdateInputDTO {
     private String nickname;
 
     @Schema(description = "用户性别")
-    @Pattern(regexp = "^[0-2]$", message = "用户性别必须是0、1或2")
+    @Range(min = 0, max = 2, message = "用户性别必须是0、1或2")
     private Integer gender;
 
     @Schema(description = "用户头像")
     private String avatar;
 
     @Schema(description = "用户状态")
-    @Pattern(regexp = "^[01]$", message = "用户状态必须是0或1")
+    @AssertTrue(message = "用户状态必须是0或1")
     private Boolean status;
 
     @Schema(description = "用户排序")

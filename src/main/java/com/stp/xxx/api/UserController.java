@@ -15,6 +15,7 @@ import io.swagger.v3.oas.annotations.Parameters;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.annotation.Resource;
 import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotBlank;
 import org.springframework.cloud.context.config.annotation.RefreshScope;
 import org.springframework.web.bind.annotation.*;
 import com.stp.xxx.service.UserService;
@@ -61,8 +62,8 @@ public class UserController {
             @Parameter(name = "password", description = "密码", required = true)})
     @PostMapping("login")
     public String login(
-            @RequestParam("username") String username,
-            @RequestParam("password") String password) {
+            @NotBlank(message = "用户名不能为空") @RequestParam("username") String username,
+            @NotBlank(message = "密码不能为空") @RequestParam("password") String password) {
         return userService.login(username, password);
     }
 
@@ -77,7 +78,7 @@ public class UserController {
     @Operation(summary = "删除")
     @Parameter(name = "id", description = "用户id", required = true)
     @PostMapping("delete")
-    public void delete(@RequestParam("id") String id) {
+    public void delete(@NotBlank(message = "用户id不能为空") @RequestParam("id") String id) {
         userService.delete(id);
     }
 

@@ -9,7 +9,7 @@ CREATE TABLE t_sys_user
     password    VARCHAR(256) NOT NULL COMMENT '密码',
     gender      TINYINT(1)            DEFAULT 0 COMMENT '性别：1=男, 2=女, 0=未知',
     avatar      VARCHAR(1024)         DEFAULT '' COMMENT '头像',
-    status      TINYINT(1)   NOT NULL DEFAULT 1 COMMENT '状态：0=禁用, 1=启用',s
+    status      TINYINT(1)   NOT NULL DEFAULT 1 COMMENT '状态：0=禁用, 1=启用',
     role        VARCHAR(64)  NOT NULL DEFAULT '普通用户' COMMENT '角色',
     is_deleted  TINYINT(1)   NOT NULL DEFAULT 0 COMMENT '逻辑删除标记',
     create_time DATETIME     NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',

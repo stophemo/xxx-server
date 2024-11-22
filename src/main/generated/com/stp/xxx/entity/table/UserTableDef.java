@@ -36,10 +36,19 @@ public class UserTableDef extends TableDef {
 
     public final QueryColumn PASSWORD = new QueryColumn(this, "password");
 
+    /**
+     * 记录是否已删除
+     */
     public final QueryColumn IS_DELETED = new QueryColumn(this, "is_deleted");
 
+    /**
+     * 创建时间
+     */
     public final QueryColumn CREATE_TIME = new QueryColumn(this, "create_time");
 
+    /**
+     * 最后修改时间
+     */
     public final QueryColumn UPDATE_TIME = new QueryColumn(this, "update_time");
 
     /**

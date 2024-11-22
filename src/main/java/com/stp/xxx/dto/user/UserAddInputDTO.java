@@ -3,11 +3,10 @@ package com.stp.xxx.dto.user;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
-import lombok.AllArgsConstructor;
+import jakarta.validation.constraints.Size;
 import lombok.Data;
-import lombok.NoArgsConstructor;
+import org.hibernate.validator.constraints.Range;
 
 /**
  * <p>
@@ -35,10 +34,12 @@ public class UserAddInputDTO {
 
     @Schema(description = "用户密码")
     @NotBlank(message = "用户密码不能为空")
+    @Size(min = 5, max = 20, message = "用户密码长度必须在5到20个字符之间")
+    @Pattern(regexp = "^(?=.*[A-Za-z])(?=.*\\d)[A-Za-z\\d]{5,}$", message = "用户密码必须包含至少一个字母和一个数字")
     private String password;
 
     @Schema(description = "用户性别")
-    @Pattern(regexp = "^[0-2]$", message = "用户性别必须是0、1或2")
+    @Range(min = 0, max = 2, message = "用户性别必须是0、1或2")
     private Integer gender;
 
     @Schema(description = "用户头像")
