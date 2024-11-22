@@ -3,6 +3,7 @@ package com.stp.xxx.api;
 import cn.dev33.satoken.annotation.SaCheckLogin;
 import cn.dev33.satoken.annotation.SaIgnore;
 import cn.dev33.satoken.stp.StpUtil;
+import com.dtflys.forest.annotation.Post;
 import com.github.xiaoymin.knife4j.annotations.ApiOperationSupport;
 import com.github.xiaoymin.knife4j.annotations.ApiSort;
 import com.stp.xxx.dto.user.UserAddInputDTO;
@@ -85,5 +86,13 @@ public class UserController {
     @PostMapping("getCurrentUserInfo")
     public UserInfoGetOutputDTO getCurrentUserInfo() {
         return userService.getCurrentUserInfo();
+    }
+
+    @SaIgnore
+    @ApiOperationSupport(order = 7)
+    @Operation(summary = "验证是否登录")
+    @PostMapping("isLogin")
+    public boolean isLogin() {
+        return StpUtil.isLogin();
     }
 }
