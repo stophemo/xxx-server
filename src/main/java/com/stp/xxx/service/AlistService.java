@@ -29,13 +29,13 @@ public interface AlistService {
     @PostMapping("/api/fs/list")
     ResultEntity<FilesGetOutputDTO> listFiles(
             @RequestHeader("Authorization") String token,
-            @RequestBody FilesGetInputDTO inputDTO
+            @RequestBody FileGetInputDTO inputDTO
     );
 
     @PostMapping("/api/fs/get")
     ResultEntity<FileInfoGetOutputDTO> getFileInfo(
             @RequestHeader("Authorization") String token,
-            @RequestBody FileInfoGetInputDTO inputDTO
+            @RequestBody FileGetInputDTO inputDTO
     );
 
     @PutMapping(value = "/api/fs/form", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)

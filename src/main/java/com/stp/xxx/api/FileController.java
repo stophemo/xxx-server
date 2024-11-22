@@ -1,7 +1,6 @@
 package com.stp.xxx.api;
 
 import cn.dev33.satoken.annotation.SaCheckLogin;
-import cn.dev33.satoken.annotation.SaIgnore;
 import com.github.xiaoymin.knife4j.annotations.ApiOperationSupport;
 import com.github.xiaoymin.knife4j.annotations.ApiSort;
 import com.stp.xxx.config.exception.BusinessException;
@@ -31,14 +30,14 @@ public class FileController {
     @ApiOperationSupport(order = 1)
     @Operation(summary = "列出文件目录")
     @PostMapping(value = "list")
-    public FilesGetOutputDTO listFiles(@RequestBody FilesGetInputDTO inputDTO) {
+    public FilesGetOutputDTO listFiles(@RequestBody FileGetInputDTO inputDTO) {
         return storageService.listFiles(inputDTO);
     }
 
     @ApiOperationSupport(order = 2)
     @Operation(summary = "获取某个文件/目录信息")
     @PostMapping(value = "get")
-    public FileInfoGetOutputDTO getFileInfo(@RequestBody FileInfoGetInputDTO inputDTO) {
+    public FileInfoGetOutputDTO getFileInfo(@RequestBody FileGetInputDTO inputDTO) {
         return storageService.getFileInfo(inputDTO);
     }
 
@@ -71,12 +70,12 @@ public class FileController {
     @ApiOperationSupport(order = 12)
     @Operation(summary = "上传图片并获取链接")
     @PostMapping(value = "uploadImage")
-    public String uploadImage(@Parameter(description = "文件保存路径") @RequestParam(name = "filePath") String filePath,
+    public String uploadImage(@Parameter(description = "文件保存目录") @RequestParam(name = "fileDir") String fileDir,
                               @Parameter(description = "文件") @RequestPart(name = "file") MultipartFile file) {
         try {
             // 路径验证
-            if (filePath == null || !filePath.matches("^[a-zA-Z0-9/._+-]+\\.(jpg|jpeg|png|gif|bmp|webp)$")) {
-                throw new IllegalArgumentException("无效的文件路径");
+            if (fileDir == null || !fileDir.matches("^/[a-zA-Z0-9/._+-]*$")) {
+                throw new IllegalArgumentException("无效的文件目录");
             }
 
             // 文件类型验证
@@ -85,13 +84,11 @@ public class FileController {
                 throw new IllegalArgumentException("只允许上传图片文件");
             }
 
-            String result = storageService.uploadImage(filePath, file);
-            log.info("文件上传成功，路径: {}，链接：{}", filePath, result);
-            return result;
+            return storageService.uploadImage(fileDir, file);
         } catch (IllegalArgumentException e) {
             throw new BusinessException(ErrorCodeEnum.INVALID_PARAMETER, e);
         } catch (Exception e) {
-            log.error("上传失败: {}", e.getMessage(), e);
+            log.error("uploadImage 失败：", e);
             return "上传失败: " + e.getMessage();
         }
     }

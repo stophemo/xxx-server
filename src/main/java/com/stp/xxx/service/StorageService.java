@@ -8,12 +8,12 @@ public interface StorageService {
     /**
      * 列出文件目录
      */
-    FilesGetOutputDTO listFiles(FilesGetInputDTO inputDTO);
+    FilesGetOutputDTO listFiles(FileGetInputDTO inputDTO);
 
     /**
      * 获取某个文件/目录信息
      */
-    FileInfoGetOutputDTO getFileInfo(FileInfoGetInputDTO inputDTO);
+    FileInfoGetOutputDTO getFileInfo(FileGetInputDTO inputDTO);
 
     /**
      * 通过表单上传文件
@@ -41,6 +41,6 @@ public interface StorageService {
     );
 
 
-    String uploadImage(String filePath,
+    String uploadImage(String fileDir,
                        MultipartFile file);
 }

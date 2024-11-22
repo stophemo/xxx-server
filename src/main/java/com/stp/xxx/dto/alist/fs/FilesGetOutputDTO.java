@@ -2,6 +2,8 @@ package com.stp.xxx.dto.alist.fs;
 
 import lombok.Data;
 
+import java.util.List;
+
 @Data
 public class FilesGetOutputDTO {
 
