@@ -137,7 +137,7 @@ public class StorageServiceImpl implements StorageService {
         String filePath = StrUtil.concat(true, StrUtil.removeSuffix(encodedFilePath, "/"), "/", fileName);
         try {
             // 上传文件  因 alist -- lanzou优享版任务上传有bug，暂不用任务
-            alistService.uploadFileByform(token, MediaType.MULTIPART_FORM_DATA_VALUE, filePath, String.valueOf(true), file);
+            alistService.uploadFileByform(token, MediaType.MULTIPART_FORM_DATA_VALUE, filePath, String.valueOf(false), file);
         } catch (Exception e) {
             throw new BusinessException(ErrorCodeEnum.FILE_UPLOAD_FAILED, e);
         }
