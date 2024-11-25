@@ -1,6 +1,7 @@
 package com.stp.xxx.config.result;
 
 import com.stp.xxx.config.exception.BusinessException;
+import com.stp.xxx.config.exception.ErrorCodeEnum;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -115,6 +116,27 @@ public class ResultEntity<T> {
      */
     public static <T> ResultEntity<T> error(BusinessException e) {
         return new ResultEntity<>(e.getCode(), e.getMessage(), null);
+    }
+
+    /**
+     * 异常枚举包装
+     *
+     * @param e 业务异常
+     * @return the result entity
+     */
+    public static <T> ResultEntity<T> error(ErrorCodeEnum e) {
+        return new ResultEntity<>(e.getCode(), e.getMessage(), null);
+    }
+
+    /**
+     * 异常枚举包装
+     *
+     * @param e 业务异常
+     * @param data 返回数据
+     * @return the result entity
+     */
+    public static <T> ResultEntity<T> error(ErrorCodeEnum e, T data) {
+        return new ResultEntity<>(e.getCode(), e.getMessage(), data);
     }
 }
 

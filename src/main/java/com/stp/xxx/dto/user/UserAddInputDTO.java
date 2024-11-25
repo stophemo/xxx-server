@@ -6,6 +6,7 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
 import lombok.Data;
+import org.dromara.hutool.core.text.StrUtil;
 import org.hibernate.validator.constraints.Range;
 
 /**
@@ -21,7 +22,6 @@ public class UserAddInputDTO {
     private String email;
 
     @Schema(description = "手机号码")
-    @NotBlank(message = "手机号码不能为空")
     @Pattern(regexp = "^1[3-9]\\d{9}$", message = "手机号码格式不正确")
     private String phone;
 
@@ -47,5 +47,18 @@ public class UserAddInputDTO {
 
     @Schema(description = "角色", defaultValue = "普通用户")
     @NotBlank(message = "角色不可为空")
-    private String role;
+    private String role = "普通用户";
+
+
+    public void setEmail(String email) {
+        if (email != "") {
+            this.email = email;
+        }
+    }
+
+    public void setPhone(String phone) {
+        if (phone != "") {
+            this.phone = phone;
+        }
+    }
 }

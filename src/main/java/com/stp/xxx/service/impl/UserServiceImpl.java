@@ -3,6 +3,7 @@ package com.stp.xxx.service.impl;
 import cn.dev33.satoken.stp.StpUtil;
 import com.mybatisflex.core.query.QueryWrapper;
 import com.mybatisflex.spring.service.impl.ServiceImpl;
+import com.opencsv.bean.processor.ConvertEmptyOrBlankStringsToNull;
 import com.stp.xxx.dto.user.UserInfoGetOutputDTO;
 import com.stp.xxx.service.AlistService;
 import com.stp.xxx.util.TokenUtil;
@@ -26,6 +27,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+
+import java.sql.SQLIntegrityConstraintViolationException;
 
 /**
  * <p>
@@ -57,64 +60,39 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
             throw new BusinessException(ErrorCodeEnum.USER_ALREADY_EXISTS);
         }
 
-        User user = new User();
-        BeanUtil.copyProperties(inputDTO, user);
+        User user = BeanUtil.copyProperties(inputDTO, User.class);
         user.setId(IdUtil.fastSimpleUUID().toUpperCase());
         user.setStatus(true);
-        String hashedPassword = passwordEncoder.encode(inputDTO.getPassword());
-        user.setPassword(hashedPassword);
-
-        try {
-            if (save(user)) {
-                StpUtil.login(user.getName());
-                StpUtil.getSession().set(SysContant.USER_INFO, user);
-                // 调用Alist的登录接口
-                try {
-                    String alistToken = alistService.getTokenValue(alistUsername, alistPassword);
-                    StpUtil.getSession().set(SysContant.ALIST_TOKEN, alistToken);
-                } catch (Exception e) {
-                    log.error("Alist 登录失败", e);
-                }
-                return StpUtil.getTokenValue();
+        user.setPassword(passwordEncoder.encode(inputDTO.getPassword()));
+        if (save(user)) {
+            StpUtil.login(user.getName());
+            StpUtil.getSession().set(SysContant.USER_INFO, user);
+            // 调用Alist的登录接口
+            try {
+                String alistToken = alistService.getTokenValue(alistUsername, alistPassword);
+                StpUtil.getSession().set(SysContant.ALIST_TOKEN, alistToken);
+            } catch (Exception e) {
+                log.error("Alist 登录失败", e);
             }
-        } catch (Exception e) {
-            // 获取异常信息
-            String errorMessage = e.getMessage();
-            // 判断是否违反唯一约束
-            if (errorMessage != null && errorMessage.contains("Duplicate entry")) {
-                log.error(errorMessage);
-                throw new BusinessException(ErrorCodeEnum.DATA_DUPLICATION.getCode(),
-                        SqlExceptionUtil.getDuplicateKeyMessage(errorMessage, commonMapper));
-            } else {
-                throw new BusinessException(e);
-            }
+            return StpUtil.getTokenValue();
+        } else {
+            throw new BusinessException("注册失败");
         }
 
-        throw new BusinessException("注册失败");
+
     }
 
     @Override
     public String updateUserInfo(UserUpdateInputDTO inputDTO) {
         User user = BeanUtil.copyProperties(inputDTO, User.class);
-        try {
-            if (updateById(user, true)) {
-                User newUser = getById(user.getId());
-                StpUtil.getSession().set(SysContant.USER_INFO, newUser);
-                return "修改成功";
-            }
-        } catch (Exception e) {
-            // 获取异常信息
-            String errorMessage = e.getMessage();
-            // 判断是否违反唯一约束
-            if (errorMessage != null && errorMessage.contains("Duplicate entry")) {
-                log.error(errorMessage);
-                throw new BusinessException(ErrorCodeEnum.DATA_DUPLICATION.getCode(),
-                        SqlExceptionUtil.getDuplicateKeyMessage(errorMessage, commonMapper));
-            } else {
-                throw new BusinessException(e);
-            }
+
+        if (updateById(user, true)) {
+            User newUser = getById(user.getId());
+            StpUtil.getSession().set(SysContant.USER_INFO, newUser);
+            return "修改成功";
+        } else {
+            throw new BusinessException("修改失败");
         }
-        return "修改失败";
     }
 
     @Override
