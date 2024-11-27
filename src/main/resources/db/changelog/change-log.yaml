@@ -15,10 +15,9 @@ databaseChangeLog:
       name: autoIncrement
       value: ture
       dbms: mysql,h2,postgresql,oracle
-  - changeSet:
-      id: init
-      author: stp
-      runOnChange: true
-      changes:
-        - sqlFile:
-            path: db/changelog/sql/init.sql
+#  - changeSet:
+#      id: init
+#      runOnChange: false
+#      changes:
+#        - sqlFile:
+#            path: db/changelog/sql/init.sql

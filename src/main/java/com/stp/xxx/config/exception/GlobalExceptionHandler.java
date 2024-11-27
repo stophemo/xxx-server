@@ -104,7 +104,7 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(Exception.class)
     @ResponseBody
     public ResultEntity<?> handleUnknownException(Exception e) {
-        log.error("未知异常：", e);
+        log.error("异常：", e);
         return ResultEntity.error(ErrorCodeEnum.UNKNOWN_ERROR.getCode(), e.getMessage(), e.getCause());
     }
 }

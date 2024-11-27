@@ -3,7 +3,6 @@ package com.stp.xxx.service.impl;
 import cn.dev33.satoken.stp.StpUtil;
 import com.mybatisflex.core.query.QueryWrapper;
 import com.mybatisflex.spring.service.impl.ServiceImpl;
-import com.opencsv.bean.processor.ConvertEmptyOrBlankStringsToNull;
 import com.stp.xxx.dto.user.UserInfoGetOutputDTO;
 import com.stp.xxx.service.AlistService;
 import com.stp.xxx.util.TokenUtil;
@@ -17,7 +16,6 @@ import com.stp.xxx.dto.user.UserUpdateInputDTO;
 import com.stp.xxx.entity.User;
 import com.stp.xxx.enums.RoleEnum;
 import com.stp.xxx.service.UserService;
-import com.stp.xxx.util.SqlExceptionUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.dromara.hutool.core.bean.BeanUtil;
@@ -27,8 +25,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
-
-import java.sql.SQLIntegrityConstraintViolationException;
 
 /**
  * <p>
@@ -43,8 +39,6 @@ import java.sql.SQLIntegrityConstraintViolationException;
 @Service
 public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements UserService {
 
-    @Autowired
-    private CommonMapper commonMapper;
     @Autowired
     private AlistService alistService;
     @Value("${alist.username}")
@@ -78,8 +72,6 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
         } else {
             throw new BusinessException("注册失败");
         }
-
-
     }
 
     @Override

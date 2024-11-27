@@ -1,4 +1,4 @@
-DROP TABLE IF EXISTS t_sys_user;
+# DROP TABLE IF EXISTS t_sys_user;
 CREATE TABLE t_sys_user
 (
     id          CHAR(32) PRIMARY KEY COMMENT '主键ID',
@@ -15,12 +15,12 @@ CREATE TABLE t_sys_user
     create_time DATETIME     NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
     update_time DATETIME     NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间'
 ) COMMENT '用户表';
-CREATE UNIQUE INDEX unix_email ON t_sys_user (email, (CASE WHEN (is_deleted = 1) THEN NULL ELSE email END)) USING BTREE;
-CREATE UNIQUE INDEX unix_phone ON t_sys_user (phone, (CASE WHEN (is_deleted = 1) THEN NULL ELSE phone END)) USING BTREE;
-CREATE UNIQUE INDEX unix_name ON t_sys_user (name, (CASE WHEN (is_deleted = 1) THEN NULL ELSE name END)) USING BTREE;
+CREATE UNIQUE INDEX unix_email ON t_sys_user (email, (IF((is_deleted = 1), NULL, is_deleted))) USING BTREE;
+CREATE UNIQUE INDEX unix_phone ON t_sys_user (phone, (IF((is_deleted = 1), NULL, is_deleted))) USING BTREE;
+CREATE UNIQUE INDEX unix_name ON t_sys_user (name, (IF((is_deleted = 1), NULL, is_deleted))) USING BTREE;
 
 
-DROP TABLE IF EXISTS t_feat_memo;
+# DROP TABLE IF EXISTS t_feat_memo;
 CREATE TABLE t_feat_memo
 (
     id          CHAR(32) PRIMARY KEY COMMENT '唯一标识符',
@@ -34,3 +34,4 @@ CREATE TABLE t_feat_memo
     update_time DATETIME   NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
     FOREIGN KEY (user_id) REFERENCES t_sys_user (id)
 ) COMMENT '备忘录表';
+CREATE UNIQUE INDEX unix_tag_title ON t_feat_memo (user_id, tag, title, (IF((is_deleted = 1), NULL, is_deleted))) USING BTREE;

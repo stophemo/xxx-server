@@ -6,7 +6,6 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
 import lombok.Data;
-import org.dromara.hutool.core.text.StrUtil;
 import org.hibernate.validator.constraints.Range;
 
 /**
